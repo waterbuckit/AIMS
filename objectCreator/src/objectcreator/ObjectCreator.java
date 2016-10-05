@@ -7,10 +7,10 @@ package objectcreator;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,55 +29,67 @@ public class ObjectCreator implements Runnable {
         instance = new ObjectCreator();
         instance.run();
     }
+    
+    ArrayList<Item> items = new ArrayList<>();
 
     public void loadItems() throws IOException {
         File file = new File("objectList.txt");
-        FileReader fileReader = new FileReader(file);
-        BufferedReader br = new BufferedReader(fileReader);
         // The string (line from .txt file) that will be asigned to said variable.
         String line;
-        ArrayList<Item> items = new ArrayList<>();
         try {
-            int numOfMemVars = 3;
-            Object[] memVars = new String[numOfMemVars];
-            int lineCounter = 0;
-            while((line = br.readLine()) != null){
-                memVars[lineCounter] = line;
-                lineCounter++;
-                if((lineCounter) % numOfMemVars == 0){
-                    items.add(new Item(memVars));
+            FileReader fileReader = new FileReader(file);
+            try (BufferedReader br = new BufferedReader(fileReader)) {
+                int numOfMemVars = 3;
+                Object[] memVars = new Object[numOfMemVars];
+                int lineCounter = 0;
+                while ((line = br.readLine()) != null) {
+                    memVars[lineCounter] = line;
+                    System.out.println(line);
+                    lineCounter++;
+                    System.out.println(lineCounter);
+                    if ((lineCounter) % numOfMemVars == 0) {
+                        items.add(new Item(memVars));
+                        System.out.println(Arrays.toString(memVars));
+                        lineCounter = 0;
+                    }
                 }
+                br.close();
+                printList(items);
             }
-            printList(items);
         } catch (IOException e) {
             System.out.println("File does not exist.");
         }
     }
 
     private void printList(ArrayList<Item> items) {
-        items.stream().forEach((item) -> {
+        for (Item item : items) {
             System.out.println(item.getName() + " " + item.getBarcode() + " " + item.getPrice());
-        });
+        }
     }
 
     class Item {
+
         private final String name;
         private final int barcode;
         private final double price;
-        
+
         private Item(Object[] memVars) {
             this.name = (String) memVars[0];
-            this.barcode = Integer.parseInt((String) memVars[0]);
-            this.price = (double) memVars[0];
+            this.barcode = Integer.parseInt((String) memVars[1]);
+            this.price = Double.parseDouble((String) memVars[2]);
+
         }
+
         //behaviours
-        public String getName(){
+        public String getName() {
             return name;
         }
-        public int getBarcode(){
+
+        public int getBarcode() {
             return barcode;
         }
-        public double getPrice(){
+
+        public double getPrice() {
             return price;
         }
 
