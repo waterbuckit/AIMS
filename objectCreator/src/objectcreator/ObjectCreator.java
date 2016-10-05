@@ -5,14 +5,12 @@
  */
 package objectcreator;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Scanner;
 
 /**
  *
@@ -27,44 +25,62 @@ public class ObjectCreator implements Runnable {
      */
     public static void main(String[] args) {
         instance = new ObjectCreator();
-        instance.run();
+        //instance.run();
+        try {
+            //Testing loadItems()
+            instance.loadItems();
+        } catch (IOException ex) {
+            System.err.println("Error occured in loadItems: " + ex.getMessage());
+        }
     }
-    
+
     ArrayList<Item> items = new ArrayList<>();
 
-    public void loadItems() throws IOException {
+    public void loadItems() throws FileNotFoundException {
         File file = new File("objectList.txt");
-        // The string (line from .txt file) that will be asigned to said variable.
-        String line;
-        try {
-            FileReader fileReader = new FileReader(file);
-            try (BufferedReader br = new BufferedReader(fileReader)) {
-                int numOfMemVars = 3;
-                Object[] memVars = new Object[numOfMemVars];
-                int lineCounter = 0;
-                while ((line = br.readLine()) != null) {
-                    memVars[lineCounter] = line;
-                    System.out.println(line);
-                    lineCounter++;
-                    System.out.println(lineCounter);
-                    if ((lineCounter) % numOfMemVars == 0) {
-                        items.add(new Item(memVars));
-                        System.out.println(Arrays.toString(memVars));
-                        lineCounter = 0;
-                    }
-                }
-                br.close();
-                printList(items);
+        Scanner lines = new Scanner(file) //Wrap a scanner around the file
+            .useDelimiter("\n"); //And make it's .next() method return 1 line
+
+        //classic method 
+        while (lines.hasNext()) {
+            String line = lines.next();
+            String[] entries = line.split(":"); //use a delimeter for every line.
+            //check it in the file.
+            //would be better if it was global and configurable
+            try {
+                Item item = new Item(entries);
+                this.items.add(item);
+            } catch (Exception e) {
+                //oh no, a malformed item! What will I do?
+                //I will inform the user there was a problem in the file!
+                System.err.println(e.getMessage());
+                //Because we already created an informative message in the Item
+                //constructor
+                //We still want to add any other valid items, so we are not gonna quit
             }
-        } catch (IOException e) {
-            System.out.println("File does not exist.");
         }
+        //Done! Now, remove the comments and see how simple this is.
+
+        //lambda method, completely identical to the part above
+        //---------UNCOMMENT
+//        lines.forEachRemaining((String t) -> { //for every string
+//            try { //try to add a new item, made up by splitting the line on a ':'
+//                ObjectCreator.this.items.add(new Item(t.split(":")));
+//            } catch (Exception ex) {
+//                //if error occurs, say why.
+//                System.err.println(ex.getMessage());
+//            }
+//        });
+        //---------UNCOMMENT
+        //Done!
+        
+        //And finally show our sweet results.
+        this.printList();
+
     }
 
-    private void printList(ArrayList<Item> items) {
-        for (Item item : items) {
-            System.out.println(item.getName() + " " + item.getBarcode() + " " + item.getPrice());
-        }
+    private void printList() {
+        this.items.stream().forEach(System.out::println);
     }
 
     class Item {
@@ -73,14 +89,18 @@ public class ObjectCreator implements Runnable {
         private final int barcode;
         private final double price;
 
-        private Item(Object[] memVars) {
-            this.name = (String) memVars[0];
-            this.barcode = Integer.parseInt((String) memVars[1]);
-            this.price = Double.parseDouble((String) memVars[2]);
+        private Item(String[] memVars) throws Exception {
+            try {
+                this.name = memVars[0];
+                this.barcode = Integer.parseInt(memVars[1]);
+                this.price = Double.parseDouble(memVars[2]);
+            } catch (Exception e) {
+                throw new Exception("Could not convert " + Arrays.toString(memVars) + " to a valid object - " + e.getMessage());
+            }
 
         }
 
-        //behaviours
+        //getters
         public String getName() {
             return name;
         }
@@ -93,15 +113,17 @@ public class ObjectCreator implements Runnable {
             return price;
         }
 
+        //alt+insert -> select toString(), check all, let netbeans do the work for you
+        @Override
+        public String toString() {
+            return "Item{" + "name=" + name + ", barcode=" + barcode + ", price=" + price + '}';
+        }
+
     }
 
     @Override
     public void run() {
-        try {
-            loadItems();
-        } catch (IOException ex) {
-            Logger.getLogger(ObjectCreator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //dummy application logic
     }
 
 }
