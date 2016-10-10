@@ -1,4 +1,4 @@
-# AIMS
+# AIMS - *Adam is Mad Smart*
 
 As the title suggests, this project "aims" to produce something, that being a somewhat usable piece of till software.
 
