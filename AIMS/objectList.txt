@@ -1,0 +1,5 @@
+Pancakes:12121212:99.99
+Orange:123456:2.00
+Apple:112121:3.00
+Ginger Root:1210650:2.34
+Mountain Dew:13371337:13.37
