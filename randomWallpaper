@@ -1,5 +1,5 @@
 #!/bin/bash
-DIRECTORYPATH="/home/waterbucket/Wallpapers/"
+DIRECTORYPATH="/path/to/wallpapers/"
 declare -a FILELIST=(${DIRECTORYPATH}*.jpg)
 function getRandomElement() {
 	SELECTEDFILE=${FILELIST[$RANDOM % ${#FILELIST[@]}]}
