@@ -1,0 +1,13 @@
+#!/bin/bash
+DIRECTORYPATH="/home/waterbucket/Wallpapers/"
+declare -a FILELIST=(${DIRECTORYPATH}*.jpg)
+function getRandomElement() {
+	SELECTEDFILE=${FILELIST[$RANDOM % ${#FILELIST[@]}]}
+	echo ${SELECTEDFILE}
+}
+function setWallpaper() {
+	feh --bg-scale "$SELECTEDFILE"
+}
+
+getRandomElement	
+setWallpaper
