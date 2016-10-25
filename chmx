@@ -1,0 +1,20 @@
+# Program to take a filename as the argument and make those files executable
+# The /bin/bash line is mandatory, in essence we are directing the compiler by the path to where the bash executable is stored
+
+#!/bin/bash
+# Assign whatever is given as the first argument to the variable "ARGUMENT"
+ARGUMENT=$1
+function checkIsValidDirectory(){
+	#check whether the variable ARGUMENT exists
+	if [ -f $ARGUMENT ]; then
+		setAsExecutable
+	else
+		echo "$ARGUMENT is not a valid directory."
+	fi
+}
+function setAsExecutable(){
+	chmod +x "$ARGUMENT"
+	echo "$ARGUMENT is now executable."
+}
+#Call the function to check the directory exists
+checkIsValidDirectory
