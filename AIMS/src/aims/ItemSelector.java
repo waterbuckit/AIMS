@@ -9,8 +9,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -20,31 +22,33 @@ import javax.swing.JPanel;
  */
 public class ItemSelector extends JPanel {
 
+    public ItemSelector() {
+        //move things into here!
+    }
+
     final int rows = 7;
     final int cols = 7;
     GridLayout theLayout = new GridLayout(rows, cols, -1, -1);
-    ArrayList<String> categoryList = new ArrayList();
+    Set<String> categories = new HashSet();
     ProcessHandler.ObjectCreator objectCreate = new ProcessHandler.ObjectCreator();
     private Map<String, JButton> buttonMap;
 
+    //          vvvvvvvvvvvv BAD. 
     public void setUpItems() throws FileNotFoundException {
         System.out.println("I am being called!");
         objectCreate.loadItems();
-        setUpCategories();
+        objectCreate.items.forEach(System.err::println);
+        categories = objectCreate.items.stream().distinct().map(s -> s.getCategory()).collect(Collectors.toSet());
         this.setLayout(theLayout);
-        categoryList.stream().forEach((category) -> {
+        categories.stream().forEach((category) -> {
+            System.err.println(category);
             addCategoryButton(category);
-        });
-    }
-
-    private void setUpCategories() {
-        objectCreate.items.stream().filter((item) -> (!categoryList.contains(item.getCategory()))).forEach((item) -> {
-            categoryList.add(item.getCategory());
         });
     }
 
     private void addCategoryButton(String cat) {
         JButton categoryButton = new JButton(cat);
+        System.err.println(cat);
 //        buttonMap.put(cat, categoryButton);
         categoryButton.addActionListener(new ActionListener() {
             @Override
