@@ -5,7 +5,10 @@
  */
 package aims;
 
-import javax.swing.JPanel;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 
 /**
@@ -23,23 +26,25 @@ public class DisplayScreen{
     PurchaseScreen ps = new PurchaseScreen();
     //setup process for the GUI
     void guiSetUp() {
-        JPanel currentJPanel = new JPanel(); 
-        frame.setVisible(true);
-        setCurrentRightJPanel(loginScreen, currentJPanel);
-        setCurrentLeftJPanel(purchaseList, currentJPanel);
-    }
-    private void setCurrentRightJPanel(JPanel newCurrent, JPanel currentJPanel){
-        if(currentJPanel == null){
-            currentJPanel = newCurrent;
-            frame.add(currentJPanel);
-        }else{
-            frame.remove(currentJPanel);
-            frame.add(newCurrent);
+//        JPanel currentJPanel = new JPanel(); 
+//        setCurrentRightJPanel(itemSelect, currentJPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(itemSelect);
+        try {
+            itemSelect.setUpItems();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DisplayScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
+        frame.pack();
+        frame.setVisible(true);
     }
-
-    private void setCurrentLeftJPanel(JPanel currentLeft, JPanel currentJPanel) {
-        
-    }
-    
+//    private void setCurrentRightJPanel(JPanel newCurrent, JPanel currentJPanel){
+//        if(currentJPanel == null){
+//            currentJPanel = newCurrent;
+//            frame.add(currentJPanel);
+//        }else{
+//            frame.remove(currentJPanel);
+//            frame.add(newCurrent);
+//        }
+//    }
 }

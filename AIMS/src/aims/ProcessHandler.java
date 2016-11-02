@@ -17,7 +17,7 @@ import java.util.Scanner;
  */
 public class ProcessHandler {
 
-    class ObjectCreator {
+    static class ObjectCreator {
 
         ArrayList<Item> items = new ArrayList<>();
 
@@ -71,12 +71,14 @@ public class ProcessHandler {
             private final String name;
             private final int barcode;
             private final double price;
+            private final String category;
 
             private Item(String[] memVars) throws Exception {
                 try {
                     this.name = memVars[0];
                     this.barcode = Integer.parseInt(memVars[1]);
                     this.price = Double.parseDouble(memVars[2]);
+                    this.category = memVars[3];
                 } catch (Exception e) {
                     throw new Exception("Could not convert " + Arrays.toString(memVars) + " to a valid object - " + e.getMessage());
                 }
@@ -94,6 +96,10 @@ public class ProcessHandler {
 
             public double getPrice() {
                 return price;
+            }
+            
+            public String getCategory() {
+                return category;
             }
 
             //alt+insert -> select toString(), check all, let netbeans do the work for you

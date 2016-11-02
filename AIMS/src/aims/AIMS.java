@@ -4,13 +4,13 @@ package aims;
  *
  * @author waterbucket
  */
-public class AIMS implements Runnable {
+public class AIMS implements Runnable{
 
-    static AIMS instance;
+    public static AIMS instance;
     
-
     public static void main(String[] args) {
         instance = new AIMS();
+        instance.run();
     }
 
     @Override
