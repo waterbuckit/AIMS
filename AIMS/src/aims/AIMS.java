@@ -15,6 +15,7 @@ public class AIMS implements Runnable {
         instance = new AIMS();
         instance.run();
     }
+
     AIMSFrame frame;
     //views for the frame
     ItemSelector itemSelect;

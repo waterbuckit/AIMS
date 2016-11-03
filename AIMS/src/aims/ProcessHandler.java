@@ -22,7 +22,7 @@ public class ProcessHandler {
 
         List<Item> items = new ArrayList<>();
 
-        public void loadItems() throws FileNotFoundException {
+        public List<Item> getItems() throws FileNotFoundException {
             File file = new File("objectList.txt");
             Scanner lines = new Scanner(file) //Wrap a scanner around the file
                     .useDelimiter("\n"); //And make it's .next() method return 1 line
@@ -61,6 +61,7 @@ public class ProcessHandler {
             //Done!
             //And finally show our sweet results.
 //        this.printList();
+            return items;
         }
 
         private void printList() {
