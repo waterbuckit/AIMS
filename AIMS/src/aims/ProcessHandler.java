@@ -8,7 +8,7 @@ package aims;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -18,8 +18,9 @@ import java.util.Scanner;
 public class ProcessHandler {
 
     static class ObjectCreator {
+        
 
-        ArrayList<Item> items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
 
         public void loadItems() throws FileNotFoundException {
             File file = new File("objectList.txt");
@@ -29,12 +30,12 @@ public class ProcessHandler {
             //classic method 
             while (lines.hasNext()) {
                 String line = lines.next();
-                String[] entries = line.split(":"); //use a delimeter for every line.
                 //check it in the file.
                 //would be better if it was global and configurable
                 try {
-                    Item item = new Item(entries);
+                    Item item = new Item(line);
                     this.items.add(item);
+                    System.err.println(this.items);
                 } catch (Exception e) {
                     //oh no, a malformed item! What will I do?
                     //I will inform the user there was a problem in the file!
@@ -66,47 +67,6 @@ public class ProcessHandler {
             this.items.stream().forEach(System.out::println);
         }
 
-        class Item {
-
-            private final String name;
-            private final int barcode;
-            private final double price;
-            private final String category;
-
-            private Item(String[] memVars) throws Exception {
-                try {
-                    this.name = memVars[0];
-                    this.barcode = Integer.parseInt(memVars[1]);
-                    this.price = Double.parseDouble(memVars[2]);
-                    this.category = memVars[3];
-                } catch (Exception e) {
-                    throw new Exception("Could not convert " + Arrays.toString(memVars) + " to a valid object - " + e.getMessage());
-                }
-
-            }
-
-            //getters
-            public String getName() {
-                return name;
-            }
-
-            public int getBarcode() {
-                return barcode;
-            }
-
-            public double getPrice() {
-                return price;
-            }
-            
-            public String getCategory() {
-                return category;
-            }
-
-            //alt+insert -> select toString(), check all, let netbeans do the work for you
-            @Override
-            public String toString() {
-                return "Item{" + "name=" + name + ", barcode=" + barcode + ", price=" + price + '}';
-            }
-        }
+       
     }
 }
