@@ -1,5 +1,6 @@
 package aims;
 
+import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -38,16 +39,18 @@ public class AIMS implements Runnable {
 
         //switch to initial screen (like in future login screen?)
         switchToScreen(itemSelect);
+        
     }
 
     @Override
     public void run() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setExtendedState(frame.getExtendedState()|Frame.MAXIMIZED_BOTH);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setVisible(true);
     }
 
-    public static void switchToScreen(JPanel screen) {
-        instance.frame.setContentPane(screen);
-        instance.frame.pack();
+    public void switchToScreen(JPanel screen) {
+        frame.setContentPane(screen);
+        frame.pack();
     }
 }
