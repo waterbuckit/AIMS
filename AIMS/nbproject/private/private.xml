@@ -5,14 +5,14 @@
         <group>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/BarcodeNumPad.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/AIMSFrame.java</file>
-            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/PurchaseList.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/LoginScreen.java</file>
-            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/DisplayScreen.java</file>
-            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/PurchaseScreen.java</file>
+            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/PurchaseList.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/ItemSelector.java</file>
+            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/PurchaseScreen.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/AIMS.java</file>
-            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/ProcessHandler.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/FunctionScreen.java</file>
+            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/ProcessHandler.java</file>
+            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/Item.java</file>
         </group>
     </open-files>
 </project-private>
