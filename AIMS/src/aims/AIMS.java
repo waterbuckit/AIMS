@@ -5,7 +5,6 @@ import java.awt.Frame;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -30,10 +29,10 @@ public class AIMS implements Runnable {
     LoginScreen loginScreen;
     PurchaseList purchaseList;
     PurchaseScreen ps;
-
+    
     public AIMS() {
         this.frame = new AIMSFrame();
-
+        //set up controller
         //set up screens
         this.ps = new PurchaseScreen();
         this.purchaseList = new PurchaseList();
@@ -61,7 +60,7 @@ public class AIMS implements Runnable {
         //changes only the right hand screen/list is always there
         switchToScreen(itemSelect);
     }
-
+    
     public void switchToScreen(JPanel screen) {
         frame.add(screen, BorderLayout.CENTER);
         frame.pack();

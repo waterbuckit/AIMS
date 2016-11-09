@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -65,9 +64,9 @@ public class ItemSelector extends JPanel {
 
     private void showItemGrid(String cat) {
         ArrayList<Item> itemsOfCategory = new ArrayList();
+        //remove all components from the current JPanel
+        this.removeAll();
         JPanel itemGrid = new JPanel();
-        //set the layout for the grid
-        itemGrid.setLayout(theLayout);
         //iterate over items and add them to list of items of category
         items.stream().filter((item) -> (item.getCategory().equals(cat))).forEachOrdered((item) -> {
             itemsOfCategory.add(item);
@@ -75,15 +74,14 @@ public class ItemSelector extends JPanel {
         //make a button for each item
         itemsOfCategory.stream().map((item) -> new JButton(item.getName())).map((itemButton) -> {
             itemButton.addActionListener((ae) -> {
-                
+                //do something :L
             });
             return itemButton;
         }).forEachOrdered((itemButton) -> {
             itemGrid.add(itemButton);
         });
-        //add the itemgrid to the current jpanel
-        this.add(itemGrid);
-        this.setComponentZOrder(itemGrid, 0);
+        this.repaint();
+        this.revalidate();
     }
 //    private void removeButton(String cat) {
 //        JButton button = buttonMap.remove(cat);

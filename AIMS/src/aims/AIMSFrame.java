@@ -6,10 +6,12 @@
 package aims;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
  * @author waterbucket
  */
 public class AIMSFrame extends JFrame{
+    JPanel previousPanel;
 }
