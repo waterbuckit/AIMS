@@ -8,6 +8,7 @@ package aims;
 import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ public class ItemSelector extends JPanel {
     final int cols;
     GridLayout theLayout;
     Set<String> categories;
+    
 
     public ItemSelector() throws FileNotFoundException {
         //move things into here!
@@ -36,8 +38,9 @@ public class ItemSelector extends JPanel {
         this.categories = new HashSet();
         this.theLayout = new GridLayout(rows, cols, 1, 1);
         this.items = new ArrayList();
-
+        //maybe changed because annoying compiler
         this.setUpItems();
+        //get the purchaseList
     }
 
 //    private Map<String, JButton> buttonMap;
@@ -64,6 +67,7 @@ public class ItemSelector extends JPanel {
 
     private void showItemGrid(String cat) {
         ArrayList<Item> itemsOfCategory = new ArrayList();
+        HashMap<JButton, Item> buttonItemMap = new HashMap<>();
         //remove all components from the current JPanel
         this.removeAll();
         JPanel itemGrid = new JPanel();
@@ -72,14 +76,21 @@ public class ItemSelector extends JPanel {
             itemsOfCategory.add(item);
         });
         //make a button for each item
-        itemsOfCategory.stream().map((item) -> new JButton(item.getName())).map((itemButton) -> {
+        //map each button to its relevant object
+        itemsOfCategory.forEach(System.out::println);
+        //traditional recursive
+        itemsOfCategory.stream().map((item) -> {
+            JButton itemButton = new JButton(item.getName());
+            buttonItemMap.put(itemButton, item);
+            return itemButton;
+        }).map((itemButton) -> {
             itemButton.addActionListener((ae) -> {
-                //do something :L
             });
             return itemButton;
         }).forEachOrdered((itemButton) -> {
             itemGrid.add(itemButton);
         });
+        this.add(itemGrid);
         this.repaint();
         this.revalidate();
     }
