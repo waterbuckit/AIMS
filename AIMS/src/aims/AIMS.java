@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -35,11 +34,9 @@ public class AIMS implements Runnable {
         this.frame = new AIMSFrame();
         //set up controller
         //set up screens
-        this.ps = new PurchaseScreen();
         this.purchaseList = new PurchaseList();
         this.loginScreen = new LoginScreen();
         this.functionScreen = new FunctionScreen();
-        this.purchaseScreen = new PurchaseScreen();
         try {
             this.itemSelect = new ItemSelector(instance);
         } catch (FileNotFoundException ex) {

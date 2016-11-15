@@ -5,19 +5,12 @@
  */
 package aims;
 
-import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 /**
  *
  * @author waterbucket
  */
-public class FunctionScreen extends JPanel {
-
-    GridLayout functionScreenlayout;
-
-    public FunctionScreen() {
-
-    }
-
+public class StatusBar extends JPanel{
+    
 }

@@ -5,6 +5,7 @@
  */
 package aims;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import javax.swing.JPanel;
  * @author waterbucket
  */
 public class ItemSelector extends JPanel {
-
+    
     ProcessHandler.ObjectCreator objectCreate;
     ArrayList<Item> items;
     final int rows;
@@ -70,10 +71,10 @@ public class ItemSelector extends JPanel {
 
     private void showItemGrid(String cat) {
         ArrayList<Item> itemsOfCategory = new ArrayList();
-        HashMap<JButton, Item> buttonItemMap = new HashMap<>();
         //remove all components from the current JPanel
         this.removeAll();
         JPanel itemGrid = new JPanel();
+        itemGrid.setLayout(new GridLayout(2,2));
         //iterate over items and add them to list of items of category
         items.stream().filter((item) -> (item.getCategory().equals(cat))).forEachOrdered((item) -> {
             itemsOfCategory.add(item);
@@ -83,6 +84,7 @@ public class ItemSelector extends JPanel {
         //traditional recursive
         itemsOfCategory.stream().map((item) -> {
             JButton itemButton = new JButton(item.getName());
+            itemButton.setPreferredSize(new Dimension(0, 400));
             itemButton.addActionListener((ae) -> {
                 AIMS.instance.purchaseList.addItemToList(item);
             });
@@ -99,25 +101,8 @@ public class ItemSelector extends JPanel {
             this.revalidate();
         });
         itemGrid.add(backButton);
-//        itemsOfCategory.stream().map((item) -> {
-//            JButton itemButton = new JButton(item.getName());
-//            buttonItemMap.put(itemButton, item);
-//            return itemButton;
-//        }).map((itemButton) -> {
-//            itemButton.addActionListener((ae) -> {
-//                AIMS.instance.purchaseList.addItemToList(item);
-//            });
-//            return itemButton;
-//        }).forEachOrdered((itemButton) -> {
-//            itemGrid.add(itemButton);
-//        });
         this.add(itemGrid);
         this.repaint();
         this.revalidate();
     }
-//    private void removeButton(String cat) {
-//        JButton button = buttonMap.remove(cat);
-//        this.remove(button);
-//    }
-
 }

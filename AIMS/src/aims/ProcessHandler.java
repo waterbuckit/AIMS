@@ -35,7 +35,6 @@ public class ProcessHandler {
                 try {
                     Item item = new Item(line);
                     this.items.add(item);
-                    System.err.println(this.items);
                 } catch (Exception e) {
                     //oh no, a malformed item! What will I do?
                     //I will inform the user there was a problem in the file!
