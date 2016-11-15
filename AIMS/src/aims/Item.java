@@ -29,7 +29,6 @@ public class Item {
 
     }
 
-
     //getters
     public String getName() {
         return name;
@@ -50,6 +49,6 @@ public class Item {
     //alt+insert -> select toString(), check all, let netbeans do the work for you
     @Override
     public String toString() {
-        return getName() + " of " + getCategory();
+        return "£" + String.format("%.2f", getPrice()) + " " + getName();
     }
 }

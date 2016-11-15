@@ -20,16 +20,15 @@ import javax.swing.JPanel;
  * @author waterbucket
  */
 public class ItemSelector extends JPanel {
-    
+
     ProcessHandler.ObjectCreator objectCreate;
     ArrayList<Item> items;
     final int rows;
     final int cols;
     GridLayout theLayout;
     Set<String> categories;
-    
 
-    public ItemSelector() throws FileNotFoundException {
+    public ItemSelector(AIMS instance) throws FileNotFoundException {
         //move things into here!
         this.objectCreate = new ProcessHandler.ObjectCreator();
         //Unlikely to stay as hard code
@@ -39,14 +38,18 @@ public class ItemSelector extends JPanel {
         this.theLayout = new GridLayout(rows, cols, 1, 1);
         this.items = new ArrayList();
         //maybe changed because annoying compiler
-        this.setUpItems();
+        this.getItems();
         //get the purchaseList
     }
 
+    private void getItems() throws FileNotFoundException {
+        items = (ArrayList<Item>) objectCreate.getItems();
+        setUpItems();
+    }
 //    private Map<String, JButton> buttonMap;
     //          vvvvvvvvvvvv BAD. 
-    public void setUpItems() throws FileNotFoundException {
-        items = (ArrayList<Item>) objectCreate.getItems();
+
+    public void setUpItems() {
 //        objectCreate.items.forEach(System.err::println);
         categories = objectCreate.items.stream().distinct().map(s -> s.getCategory()).collect(Collectors.toSet());
         this.setLayout(theLayout);
@@ -77,19 +80,37 @@ public class ItemSelector extends JPanel {
         });
         //make a button for each item
         //map each button to its relevant object
-        itemsOfCategory.forEach(System.out::println);
         //traditional recursive
         itemsOfCategory.stream().map((item) -> {
             JButton itemButton = new JButton(item.getName());
-            buttonItemMap.put(itemButton, item);
-            return itemButton;
-        }).map((itemButton) -> {
             itemButton.addActionListener((ae) -> {
+                AIMS.instance.purchaseList.addItemToList(item);
             });
             return itemButton;
         }).forEachOrdered((itemButton) -> {
             itemGrid.add(itemButton);
         });
+        //backButton
+        JButton backButton = new JButton("Return");
+        backButton.addActionListener((ae) -> {
+            this.removeAll();
+            setUpItems();
+            this.repaint();
+            this.revalidate();
+        });
+        itemGrid.add(backButton);
+//        itemsOfCategory.stream().map((item) -> {
+//            JButton itemButton = new JButton(item.getName());
+//            buttonItemMap.put(itemButton, item);
+//            return itemButton;
+//        }).map((itemButton) -> {
+//            itemButton.addActionListener((ae) -> {
+//                AIMS.instance.purchaseList.addItemToList(item);
+//            });
+//            return itemButton;
+//        }).forEachOrdered((itemButton) -> {
+//            itemGrid.add(itemButton);
+//        });
         this.add(itemGrid);
         this.repaint();
         this.revalidate();
@@ -98,4 +119,5 @@ public class ItemSelector extends JPanel {
 //        JButton button = buttonMap.remove(cat);
 //        this.remove(button);
 //    }
+
 }
