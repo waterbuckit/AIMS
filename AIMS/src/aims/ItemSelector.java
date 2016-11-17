@@ -87,6 +87,7 @@ public class ItemSelector extends JPanel {
             itemButton.addActionListener((ae) -> {
                 AIMS.instance.purchaseList.addItemToList(item);
             });
+            // would be most efficient to make a brann around this point :^)
             return itemButton;
         }).forEachOrdered((itemButton) -> {
             itemGrid.add(itemButton);

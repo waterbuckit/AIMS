@@ -21,10 +21,10 @@ import javax.swing.Timer;
  */
 public class StatusBar extends JPanel {
 
-    GridLayout statusLayout;
-    JLabel timeLabel;
-    CurrentTime timeCurrent;
-    SeparatorPanel sepPanel;
+    private final GridLayout statusLayout;
+    private final JLabel timeLabel;
+    private final CurrentTime timeCurrent;
+    private final SeparatorPanel sepPanel;
 
     public StatusBar() {
         statusLayout = new GridLayout(1, 0, 1, 1);

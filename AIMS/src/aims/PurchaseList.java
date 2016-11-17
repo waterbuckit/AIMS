@@ -27,7 +27,7 @@ public class PurchaseList extends javax.swing.JPanel {
     public PurchaseList(ItemSelector itemselect) {
         listModel = new DefaultListModel<>();
         itemsToBuy = new ArrayList<>();
-        
+
 //        jList2.setCellRenderer(new DefaultListCellRenderer(){
 //            @Override
 //            public Component getLComponent(JList jList2, Object theItem,)
@@ -334,7 +334,7 @@ public class PurchaseList extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        for(int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             appendToTextField(0);
         }
     }//GEN-LAST:event_jButton14ActionPerformed
@@ -351,7 +351,7 @@ public class PurchaseList extends javax.swing.JPanel {
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         transitionToPurchaseScreen();
     }//GEN-LAST:event_jButton15ActionPerformed
-    
+
     public void addItemToList(Item item) {
         jButton15.setEnabled(true);
         itemsToBuy.add(item);
@@ -372,8 +372,9 @@ public class PurchaseList extends javax.swing.JPanel {
     public double getTotal() {
         return total;
     }
+
     private void appendToTextField(int i) {
-        jTextField1.setText(jTextField1.getText()+i);
+        jTextField1.setText(jTextField1.getText() + i);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -398,10 +399,10 @@ public class PurchaseList extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
-    
+
     // Remove the last character from the jtextfield
     private void deleteCharacterFromTextField() {
-        jTextField1.setText(jTextField1.getText().substring(0, jTextField1.getText ().length() - 1));
+        jTextField1.setText(jTextField1.getText().substring(0, jTextField1.getText().length() - 1));
     }
 
     private void clearTextField() {
@@ -411,8 +412,8 @@ public class PurchaseList extends javax.swing.JPanel {
     private void searchForItem() {
         int barcodeToSearch = Integer.parseInt(jTextField1.getText());
         try {
-            for(Item item : new ProcessHandler.ObjectCreator().getItems()){
-                if(item.getBarcode() == barcodeToSearch){
+            for (Item item : new ProcessHandler.ObjectCreator().getItems()) {
+                if (item.getBarcode() == barcodeToSearch) {
                     addItemToList(item);
                 }
             }
@@ -420,7 +421,7 @@ public class PurchaseList extends javax.swing.JPanel {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PurchaseList.class.getName()).log(Level.SEVERE, null, ex);
         }
-   }
+    }
 
     private void removeItemFroMList() {
         itemsToBuy.remove(jList2.getSelectedValue());
@@ -433,5 +434,5 @@ public class PurchaseList extends javax.swing.JPanel {
         jButton15.setEnabled(false);
         AIMS.instance.frame.remove(AIMS.instance.itemSelect);
         AIMS.instance.switchToScreen(new PurchaseScreen(total));
-    }    
+    }
 }
