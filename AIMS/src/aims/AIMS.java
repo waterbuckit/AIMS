@@ -20,7 +20,7 @@ public class AIMS implements Runnable {
         instance = new AIMS();
         instance.run();
     }
-
+    
     AIMSFrame frame;
     //views for the frame
     ItemSelector itemSelect;
@@ -29,14 +29,19 @@ public class AIMS implements Runnable {
     LoginScreen loginScreen;
     PurchaseList purchaseList;
     PurchaseScreen ps;
+    PurchaseLog purchaseLog;
+    StatusBar status;
+    Boolean isRunning;
     
     public AIMS() {
+        this.isRunning = false;
         this.frame = new AIMSFrame();
         //set up controller
         //set up screens
-        this.purchaseList = new PurchaseList();
+        this.purchaseList = new PurchaseList(itemSelect);
         this.loginScreen = new LoginScreen();
         this.functionScreen = new FunctionScreen();
+        this.status = new StatusBar();
         try {
             this.itemSelect = new ItemSelector(instance);
         } catch (FileNotFoundException ex) {
@@ -53,15 +58,17 @@ public class AIMS implements Runnable {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.add(purchaseList, BorderLayout.WEST);
+        frame.add(status, BorderLayout.SOUTH);
         //switch to initial screen (like in future login screen?)
         //changes only the right hand screen/list is always there
+        frame.setSize(1600,900);
         switchToScreen(itemSelect);
+        this.isRunning = true;
     }
     
     public void switchToScreen(JPanel screen) {
         frame.add(screen, BorderLayout.CENTER);
-        frame.pack();
-        //not permanent, change!!!!!
-        frame.setSize(1600,900);
+        frame.repaint();
+        frame.revalidate();
     }
 }

@@ -5,7 +5,6 @@
  */
 package aims;
 
-import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 /**
@@ -14,10 +13,9 @@ import javax.swing.JPanel;
  */
 public class FunctionScreen extends JPanel {
 
-    GridLayout functionScreenlayout;
 
     public FunctionScreen() {
-
+        
     }
 
 }

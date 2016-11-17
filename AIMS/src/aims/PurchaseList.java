@@ -5,7 +5,6 @@
  */
 package aims;
 
-import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -25,9 +24,10 @@ public class PurchaseList extends javax.swing.JPanel {
     DefaultListModel<Item> listModel;
     double total;
 
-    public PurchaseList() {
+    public PurchaseList(ItemSelector itemselect) {
         listModel = new DefaultListModel<>();
         itemsToBuy = new ArrayList<>();
+        
 //        jList2.setCellRenderer(new DefaultListCellRenderer(){
 //            @Override
 //            public Component getLComponent(JList jList2, Object theItem,)
@@ -344,7 +344,8 @@ public class PurchaseList extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-        // TODO add your handling code here:
+        //Takes you to the function scren
+        AIMS.instance.switchToScreen(AIMS.instance.functionScreen);
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
@@ -381,7 +382,7 @@ public class PurchaseList extends javax.swing.JPanel {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
+    public javax.swing.JButton jButton15;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
@@ -429,8 +430,8 @@ public class PurchaseList extends javax.swing.JPanel {
 
     private void transitionToPurchaseScreen() {
         // Remove the item selection JPanel
+        jButton15.setEnabled(false);
         AIMS.instance.frame.remove(AIMS.instance.itemSelect);
-        // Make a new purchase screen and add it to the Frame.
-        AIMS.instance.frame.add(new PurchaseScreen(total), BorderLayout.CENTER);
-    }
+        AIMS.instance.switchToScreen(new PurchaseScreen(total));
+    }    
 }

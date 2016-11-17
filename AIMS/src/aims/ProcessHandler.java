@@ -62,11 +62,5 @@ public class ProcessHandler {
 //        this.printList();
             return items;
         }
-
-        private void printList() {
-            this.items.stream().forEach(System.out::println);
-        }
-
-       
     }
 }

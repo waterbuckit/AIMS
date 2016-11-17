@@ -5,11 +5,10 @@
  */
 package aims;
 
-import javax.swing.JFrame;
-
 /**
  *
  * @author waterbucket
  */
-public class AIMSFrame extends JFrame{
+class PurchaseLog {
+    
 }
