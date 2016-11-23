@@ -3,7 +3,11 @@ package aims;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -32,10 +36,8 @@ public class AIMS implements Runnable {
     PurchaseScreen ps;
     PurchaseLog purchaseLog;
     StatusBar status;
-    Boolean isRunning;
     
     public AIMS() {
-        this.isRunning = false;
         this.frame = new AIMSFrame();
         //set up controller
         //set up screens
@@ -63,13 +65,26 @@ public class AIMS implements Runnable {
         //switch to initial screen (like in future login screen?)
         //changes only the right hand screen/list is always there
         frame.setSize(1600,900);
-        switchToScreen(loginScreen);
-        this.isRunning = true;
+        try {
+            boolean anyUsers = checkForUsers();
+            if(anyUsers){
+                switchToScreen(loginScreen);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        switchToScreen(new UserAddScreen());
     }
     
     public void switchToScreen(JPanel screen) {
         frame.add(screen, BorderLayout.CENTER);
         frame.repaint();
         frame.revalidate();
+    }
+
+    private boolean checkForUsers() throws FileNotFoundException {
+        File file = new File("userList");
+        Scanner checkFile = new Scanner(file);
+        return checkFile.hasNext();
     }
 }

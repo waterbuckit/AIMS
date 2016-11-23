@@ -16,7 +16,7 @@ public class PurchaseScreen extends javax.swing.JPanel {
     /**
      * Creates new form Purchase
      */
-    private ArrayList<Double> previousTotals;
+    private final ArrayList<Double> previousTotals;
     private double total;
     double totalToPay;
     double changeToGive;

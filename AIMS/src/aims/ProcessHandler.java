@@ -20,14 +20,16 @@ public class ProcessHandler {
 
     static class UserData {
 
-        public String makeUserObject(String password) throws FileNotFoundException {
+        public String[] makeUserObject(String password) throws FileNotFoundException {
+            System.out.println(password);
             File file = new File("userList");
             Scanner lines = new Scanner(file).useDelimiter("\n");
             while (lines.hasNext()) {
-                String wordsOfLine[] = lines.next().split(" ");
+                String wordsOfLine[] = lines.next().split(":");
                 System.out.println(Arrays.toString(wordsOfLine));
+                System.out.println(wordsOfLine[0]);
                 if (wordsOfLine[0].equals(password)) {
-                    return Arrays.toString(wordsOfLine);
+                    return wordsOfLine;
                 }
             }
             return null;

@@ -19,8 +19,7 @@ public class User {
     String userName;
     String rank;
     
-    public User(String line) {
-        String[] memVars = line.split(":");
+    public User(String[] memVars) {
         userName = memVars[1];
         rank = memVars[2];
     }
