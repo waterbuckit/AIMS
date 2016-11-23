@@ -8,7 +8,25 @@ package aims;
 /**
  *
  * @author waterbucket
+ * 
+ * Class to define what a user can do when they log in. Privileges are attained 
+ * by difference in account
+ * Dependent on rank in company.
  */
+
 public class User {
-    //Class that defines what a user is able to do
+    
+    String userName;
+    String rank;
+    
+    public User(String line) {
+        String[] memVars = line.split(":");
+        userName = memVars[1];
+        rank = memVars[2];
+    }
+    @Override
+    public String toString() {
+        return userName + " " + rank; 
+    }
+    
 }

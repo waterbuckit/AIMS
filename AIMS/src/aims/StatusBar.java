@@ -60,7 +60,7 @@ public class StatusBar extends JPanel {
             timer.start();
         }
     }
-
+    
     class SeparatorPanel extends JPanel {
 
         protected Color leftColor;
@@ -79,7 +79,9 @@ public class StatusBar extends JPanel {
             g.setColor(rightColor);
             g.drawLine(1, 0, 1, getHeight());
         }
-
+        /**
+         *  this is my documentation (^:
+         */
     }
 
 }

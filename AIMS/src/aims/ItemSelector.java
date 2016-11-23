@@ -21,7 +21,7 @@ import javax.swing.JPanel;
  */
 public class ItemSelector extends JPanel {
     
-    ProcessHandler.ObjectCreator objectCreate;
+    ProcessHandler.ItemObjectCreator objectCreate;
     ArrayList<Item> items;
     final int rows;
     final int cols;
@@ -30,7 +30,7 @@ public class ItemSelector extends JPanel {
 
     public ItemSelector(AIMS instance) throws FileNotFoundException {
         //move things into here!
-        this.objectCreate = new ProcessHandler.ObjectCreator();
+        this.objectCreate = new ProcessHandler.ItemObjectCreator();
         //Unlikely to stay as hard code
         this.rows = 7;
         this.cols = 7;
@@ -79,15 +79,12 @@ public class ItemSelector extends JPanel {
             itemsOfCategory.add(item);
         });
         //make a button for each item
-        //map each button to its relevant object
-        //traditional recursive
         itemsOfCategory.stream().map((item) -> {
             JButton itemButton = new JButton(item.getName());
             itemButton.setPreferredSize(new Dimension(0, 400));
             itemButton.addActionListener((ae) -> {
                 AIMS.instance.purchaseList.addItemToList(item);
             });
-            // would be most efficient to make a brann around this point :^)
             return itemButton;
         }).forEachOrdered((itemButton) -> {
             itemGrid.add(itemButton);

@@ -412,7 +412,7 @@ public class PurchaseList extends javax.swing.JPanel {
     private void searchForItem() {
         int barcodeToSearch = Integer.parseInt(jTextField1.getText());
         try {
-            for (Item item : new ProcessHandler.ObjectCreator().getItems()) {
+            for (Item item : new ProcessHandler.ItemObjectCreator().getItems()) {
                 if (item.getBarcode() == barcodeToSearch) {
                     addItemToList(item);
                 }

@@ -63,7 +63,7 @@ public class AIMS implements Runnable {
         //switch to initial screen (like in future login screen?)
         //changes only the right hand screen/list is always there
         frame.setSize(1600,900);
-        switchToScreen(itemSelect);
+        switchToScreen(loginScreen);
         this.isRunning = true;
     }
     
