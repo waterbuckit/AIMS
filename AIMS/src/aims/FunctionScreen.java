@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  */
 public class FunctionScreen extends JPanel {
 
-
+    
     public FunctionScreen() {
         
     }

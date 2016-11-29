@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import javax.swing.DefaultListModel;
 
 /**
@@ -16,6 +17,30 @@ import javax.swing.DefaultListModel;
  * @author waterbucket
  */
 public class PurchaseList extends javax.swing.JPanel {
+
+    private User user = null;
+
+    /**
+     * Get the value of user
+     *
+     * @return the value of user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @param user new value of user
+     */
+    public final void setUser(User user) {
+        Stream.of(getComponents()).forEach((t) -> {
+            t.setEnabled(user != null);
+        });
+
+        this.user = user;
+    }
 
     /**
      * Creates new form PurchaseList
@@ -33,6 +58,7 @@ public class PurchaseList extends javax.swing.JPanel {
 //            public Component getLComponent(JList jList2, Object theItem,)
 //        });
         initComponents();
+        setUser(null);
     }
 
     /**

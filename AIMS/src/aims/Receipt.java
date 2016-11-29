@@ -15,7 +15,6 @@ import java.util.ArrayList;
 class Receipt {
 
     Receipt(ArrayList<Item> itemsToBuy, double changeToGive) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
-
 }

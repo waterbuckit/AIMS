@@ -8,7 +8,6 @@ package aims;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,13 +20,10 @@ public class ProcessHandler {
     static class UserData {
 
         public String[] makeUserObject(String password) throws FileNotFoundException {
-            System.out.println(password);
             File file = new File("userList");
             Scanner lines = new Scanner(file).useDelimiter("\n");
             while (lines.hasNext()) {
                 String wordsOfLine[] = lines.next().split(":");
-                System.out.println(Arrays.toString(wordsOfLine));
-                System.out.println(wordsOfLine[0]);
                 if (wordsOfLine[0].equals(password)) {
                     return wordsOfLine;
                 }
