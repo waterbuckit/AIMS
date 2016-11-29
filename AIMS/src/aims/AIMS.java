@@ -5,8 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +34,7 @@ public class AIMS implements Runnable {
     PurchaseScreen ps;
     PurchaseLog purchaseLog;
     StatusBar status;
+    Boolean loggedIn;
     
     public AIMS() {
         this.frame = new AIMSFrame();
@@ -51,7 +50,6 @@ public class AIMS implements Runnable {
             Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     @Override
     public void run() {
         frame.setTitle("AIMS");
@@ -69,11 +67,12 @@ public class AIMS implements Runnable {
             boolean anyUsers = checkForUsers();
             if(anyUsers){
                 switchToScreen(loginScreen);
+            }else{
+                switchToScreen(new UserAddScreen());
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        switchToScreen(new UserAddScreen());
     }
     
     public void switchToScreen(JPanel screen) {
