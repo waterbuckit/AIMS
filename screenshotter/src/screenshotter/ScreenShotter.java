@@ -29,18 +29,19 @@ public class ScreenShotter {
         screen = new JFrame();
         drawOn = new PanelDrag();
         screen.setTitle("screenShotter");
+        screen.setAlwaysOnTop(true);
         screen.setContentPane(drawOn);
         screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         screen.setExtendedState(JFrame.MAXIMIZED_BOTH);
         screen.setUndecorated(true);
-        screen.setBackground(new Color(0, 0, 0, 0));
+        screen.setBackground(new Color(0, 0, 0, 50));
         drawOn.setOpaque(false);
-        screen.setVisible(true);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             ScreenShotter screenShotter = new ScreenShotter();
+            screenShotter.screen.setVisible(true);
         });
     }
 
@@ -49,14 +50,16 @@ public class ScreenShotter {
         private Shape s;
 
         public PanelDrag() {
-            addMouseMotionListener(new mouseAdapter());
-            addMouseListener(new mouseAdapter());
+            MouseControl madapt = new MouseControl();
+            addMouseMotionListener(madapt);
+            addMouseListener(madapt);
         }
 
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
+            g2d.clearRect(0, 0, getWidth(), getHeight());
             g2d.setColor(Color.cyan);
             if(s == null){
                 return;
@@ -64,7 +67,7 @@ public class ScreenShotter {
             s.draw(g2d);
         }
 
-        private class mouseAdapter extends MouseAdapter {
+        private class MouseControl extends MouseAdapter {
 
             @Override
             public void mousePressed(MouseEvent me) {
@@ -74,7 +77,7 @@ public class ScreenShotter {
 
             @Override
             public void mouseDragged(MouseEvent me) {
-                s.rect.add(me.getPoint());
+                s.rect.setSize(s.getWidth(me.getPoint()), s.getHeight(me.getPoint()));
                 System.out.println(s.rect.getX() + " " + s.rect.getY() + " " + s.getClickedPoint());
                 drawOn.repaint();
             }
@@ -97,13 +100,20 @@ public class ScreenShotter {
         public Point getClickedPoint() {
             return clickedPoint;
         }
-        
         public void draw(Graphics2D g){
             g.drawRect(rect.x, rect.y, rect.width, rect.height);
-//            g.drawLine(p1.x, p1.y, p2.x, p1.y);
-//            g.drawLine(p1.x, p1.y, p1.x, p2.y);
-//            g.drawLine(p2.x, p2.y, p2.x, p1.y);
-//            g.drawLine(p2.x, p2.y, p1.x, p2.y);
+        }
+
+        private int getHeight(Point point) {
+            Point pointTo = new Point(getClickedPoint().x, point.y);
+            int height = (int) Math.sqrt(Math.pow((pointTo.x - getClickedPoint().x), 2) + Math.pow((pointTo.y - getClickedPoint().y), 2));
+            return height;
+        }
+
+        private int getWidth(Point point) {
+            Point pointTo = new Point(point.x, getClickedPoint().y);
+            int width = (int) Math.sqrt(Math.pow((pointTo.x - getClickedPoint().x), 2) + Math.pow((pointTo.y - getClickedPoint().y), 2));
+            return width;
         }
     }
 }
