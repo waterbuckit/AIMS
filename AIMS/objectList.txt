@@ -3,3 +3,4 @@ Orange:123456:2.00:Fruit
 Apple:112121:3.00:Fruit
 Ginger Root:1210650:2.34:Beverage
 Mountain Dew:13371337:13.37:Beverage
+Burger:12312453:10.00:Meat

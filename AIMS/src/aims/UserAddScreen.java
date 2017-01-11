@@ -5,6 +5,13 @@
  */
 package aims;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author waterbucket
@@ -48,10 +55,15 @@ public class UserAddScreen extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel4.setText("Rank");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Employee", "Team Leader" , "Manager"}));
 
         jButton1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jButton1.setText("Submit and Add User");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -101,6 +113,15 @@ public class UserAddScreen extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            addUser();
+            AIMS.instance.switchToScreen(AIMS.instance.functionScreen);
+        } catch (IOException ex) {
+            Logger.getLogger(UserAddScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -112,4 +133,12 @@ public class UserAddScreen extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    private void addUser() throws IOException {
+        String[] newUserFields = {jTextField2.getText(), jTextField1.getText(), jComboBox1.getSelectedItem().toString()};
+        for(int i = 0; i < newUserFields.length; i++){
+            Files.write(Paths.get("userList"), newUserFields[i].getBytes(), StandardOpenOption.APPEND);
+            Files.write(Paths.get("userList"), ":".getBytes(), StandardOpenOption.APPEND);
+        }
+    }
 }

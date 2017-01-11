@@ -5,10 +5,12 @@
  */
 package aims;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author waterbucket
  */
-class PurchaseLog {
+class PurchaseLog extends JPanel{
     
 }

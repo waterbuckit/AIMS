@@ -17,13 +17,15 @@ public class LoginScreen extends javax.swing.JPanel {
     /**
      * Creates new form LoginScreen
      */
+    
+    
     ProcessHandler.UserData makeUsers;
     static User user;
     public LoginScreen() {
         
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
