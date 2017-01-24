@@ -14,11 +14,6 @@ import javax.swing.JLabel;
  */
 public class LoginScreen extends javax.swing.JPanel {
 
-    /**
-     * Creates new form LoginScreen
-     */
-    
-    
     ProcessHandler.UserData makeUsers;
     static User user;
     public LoginScreen() {

@@ -19,7 +19,7 @@ import javax.swing.DefaultListModel;
 public class PurchaseList extends javax.swing.JPanel {
 
     private User user = null;
-    
+    private int transactionNum;
     /**
      * Get the value of user
      *
@@ -32,8 +32,12 @@ public class PurchaseList extends javax.swing.JPanel {
     /**
      * Set the value of user
      *
+     * @param num
      * @param user new value of user
      */
+    private void setTransactionNum(int num){
+        this.transactionNum = num;
+    }
     public final void setUser(User user) {
         Stream.of(getComponents()).forEach((t) -> {
             t.setEnabled(user != null);
@@ -59,6 +63,7 @@ public class PurchaseList extends javax.swing.JPanel {
 //        });
         initComponents();
         setUser(null);
+        setTransactionNum(ProcessHandler.getTransactionNumber());
     }
 
     /**
@@ -459,6 +464,6 @@ public class PurchaseList extends javax.swing.JPanel {
         // Remove the item selection JPanel
         jButton15.setEnabled(false);
         AIMS.instance.frame.remove(AIMS.instance.itemSelect);
-        AIMS.instance.switchToScreen(new PurchaseScreen(total));
+        AIMS.instance.switchToScreen(new PurchaseScreen(total, transactionNum));
     }
 }

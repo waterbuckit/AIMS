@@ -32,10 +32,6 @@ public class FunctionScreen extends javax.swing.JPanel {
      * @param user new value of user
      */
     public void setUser(User user) {
-        switch(user.rank){
-            case "Manager":
-                
-        }
         this.user = user;
     }
 

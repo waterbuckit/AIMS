@@ -17,6 +17,12 @@ import java.util.Scanner;
  */
 public class ProcessHandler {
 
+    static int getTransactionNumber() {
+        int transactionNumber = 0;
+        
+        return transactionNumber;
+    }
+
     static class UserData {
 
         public String[] makeUserObject(String password) throws FileNotFoundException {

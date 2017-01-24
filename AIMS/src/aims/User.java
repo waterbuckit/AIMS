@@ -28,4 +28,8 @@ public class User {
         return userName + " " + rank; 
     }
     
+    public String getName(){
+        return userName;
+    }
+    
 }

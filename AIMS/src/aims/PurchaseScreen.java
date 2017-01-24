@@ -18,11 +18,13 @@ public class PurchaseScreen extends javax.swing.JPanel {
      */
     private final ArrayList<Double> previousTotals;
     private double total;
-    double totalToPay;
-    double changeToGive;
+    private double totalToPay;
+    private double changeToGive;
+    private final int transactionNum;
 
-    public PurchaseScreen(double total) {
+    public PurchaseScreen(double total, int transactionNum) {
         initComponents();
+        this.transactionNum = transactionNum;
         this.previousTotals = new ArrayList<>();
         this.total = 0;
         this.changeToGive = 0;
@@ -413,6 +415,8 @@ public class PurchaseScreen extends javax.swing.JPanel {
         }
     }
     private void purchaseComplete() {
+        Receipt receipt = new Receipt(AIMS.instance.purchaseList.itemsToBuy, changeToGive, AIMS.instance.purchaseList.getUser(), transactionNum);
+        receipt.makeReceipt();
         AIMS.instance.purchaseList.itemsToBuy.removeAll(AIMS.instance.purchaseList.itemsToBuy);
         AIMS.instance.purchaseList.listModel.removeAllElements();
         AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
