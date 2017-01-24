@@ -36,16 +36,8 @@ class Transactions {
 
 class Transaction {
 
-    int transactionNum;
-    ArrayList<Item> itemsBought;
-    double change;
-    User user;
-    String time;
+    String transDetails;
     
-    Transaction(ArrayList<Item> itemsBought, double changeToGive, User user, String time) {
-        this.itemsBought = itemsBought;
-        this.change = changeToGive;
-        this.user = user;
-        this.time = time;
+    Transaction(String transDetails) {
     }
 }

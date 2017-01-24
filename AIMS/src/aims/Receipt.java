@@ -28,22 +28,22 @@ class Receipt {
     DateFormat df;
     Double total;
 
-//        this.string = strung;
     Receipt(ArrayList<Item> itemsToBuy, double total, double changeToGive, User user, int transactionNum) {
         this.total = total;
         this.itemsToBuy = itemsToBuy;
         this.changeTogive = changeToGive;
         this.user = user;
         this.df = new SimpleDateFormat("dd/MM/yyyy");
-        AIMS.instance.purchaseLog.makeTransaction(new Transaction(itemsToBuy, changeToGive, user, df.format(Calendar.getInstance().getTime())));
     }
 
     public void makeReceipt() {
-        if (fileAndDirExists()) {
-            writeTofile(generateString());
-        } else {
-            makeDirectoryAndFile();
-            writeTofile(generateString());
+        if (!dirExists()) {
+            makeDir();
+            makeFile();
+            writeToFile(generateString());
+        } else if (dirExistsNotFile()) {
+            makeFile();
+            writeToFile(generateString());
         }
     }
 
@@ -64,25 +64,32 @@ class Receipt {
         return sb.toString();
     }
 
-    private boolean fileAndDirExists() {
-        File checkFile = new File("Receipts");
-        File checkReceiptLog = new File("Receipts/" + df.format(Calendar.getInstance().getTime()));
-        return checkFile.isDirectory() && checkReceiptLog.isFile();
+    private void makeDir() {
+        new File("Receipts").mkdir();
     }
 
-    private void makeDirectoryAndFile() {
+    private void writeToFile(String receiptString) {
         try {
-            new File("Receipts").mkdir();
-            new File("Receipts/" + df.format(Calendar.getInstance().getTime())).getParentFile().createNewFile();
+            FileWriter fw = new FileWriter(new File("Receipts/" + df.format(Calendar.getInstance().getTime())).getAbsoluteFile(), true);
+            fw.write(receiptString);
         } catch (IOException ex) {
             Logger.getLogger(Receipt.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void writeTofile(String receiptString) {
+    private boolean dirExists() {
+        File checkDir = new File("Receipts");
+        return checkDir.isDirectory();
+    }
+
+    private boolean dirExistsNotFile() {
+        File checkFile = new File("Receipts/" + df.format(Calendar.getInstance().getTime()));
+        return checkFile.isFile();
+    }
+
+    private void makeFile() {
         try {
-            FileWriter fw = new FileWriter(new File("Receipts/" + df.format(Calendar.getInstance().getTime())).getAbsoluteFile(), true);
-            fw.write(receiptString);
+            new File("Receipts/" + df.format(Calendar.getInstance().getTime() + ".txt")).createNewFile();
         } catch (IOException ex) {
             Logger.getLogger(Receipt.class.getName()).log(Level.SEVERE, null, ex);
         }

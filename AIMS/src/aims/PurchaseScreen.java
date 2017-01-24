@@ -5,7 +5,10 @@
  */
 package aims;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -415,11 +418,16 @@ public class PurchaseScreen extends javax.swing.JPanel {
         }
     }
     private void purchaseComplete() {
-        Receipt receipt = new Receipt(AIMS.instance.purchaseList.itemsToBuy, totalToPay, changeToGive, AIMS.instance.purchaseList.getUser(), transactionNum);
+        Receipt receipt = new Receipt(AIMS.instance.purchaseList.itemsToBuy, totalToPay, changeToGive, AIMS.instance.purchaseList.getUser(), AIMS.instance.status.getTransactionNum());
         receipt.makeReceipt();
+        AIMS.instance.status.setTransactionNumber();
         AIMS.instance.purchaseList.itemsToBuy.removeAll(AIMS.instance.purchaseList.itemsToBuy);
         AIMS.instance.purchaseList.listModel.removeAllElements();
-        AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
+        try {
+            AIMS.instance.switchToScreen(new ItemSelector(AIMS.instance));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PurchaseScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
         AIMS.instance.frame.remove(this);
     }
 

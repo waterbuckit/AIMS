@@ -77,6 +77,7 @@ public class AIMS implements Runnable {
             Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
         }
         purchaseLog.addPreviousTransactions(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+        File file = new File("Receipt");
     }
 
     public void switchToScreen(JPanel screen) {
