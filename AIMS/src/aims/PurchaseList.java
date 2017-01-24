@@ -63,7 +63,7 @@ public class PurchaseList extends javax.swing.JPanel {
 //        });
         initComponents();
         setUser(null);
-        setTransactionNum(ProcessHandler.getTransactionNumber());
+//        setTransactionNum(ProcessHandler.getTransactionNumber());
     }
 
     /**

@@ -20,57 +20,60 @@ import java.util.logging.Logger;
  * @author waterbucket
  */
 class Receipt {
-    
-    int transactionNum;
+
     ArrayList<Item> itemsToBuy;
     double changeTogive;
     User user;
     String string;
     DateFormat df;
+    Double total;
 
 //        this.string = strung;
-    Receipt(ArrayList<Item> itemsToBuy, double changeToGive, User user, int transactionNum) {
+    Receipt(ArrayList<Item> itemsToBuy, double total, double changeToGive, User user, int transactionNum) {
+        this.total = total;
         this.itemsToBuy = itemsToBuy;
         this.changeTogive = changeToGive;
         this.user = user;
         this.df = new SimpleDateFormat("dd/MM/yyyy");
+        AIMS.instance.purchaseLog.makeTransaction(new Transaction(itemsToBuy, changeToGive, user, df.format(Calendar.getInstance().getTime())));
     }
 
     public void makeReceipt() {
-        if (fileExists()) {
+        if (fileAndDirExists()) {
             writeTofile(generateString());
         } else {
             makeDirectoryAndFile();
-            makeReceipt();
+            writeTofile(generateString());
         }
     }
 
     private String generateString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("#").append(transactionNum).append("\n");
+        sb.append("#").append(AIMS.instance.purchaseLog.getTransactionNumber()).append("\n");
         sb.append("Receipt\n");
-        sb.append(df.format(Calendar.getInstance()));
-        sb.append("----------------\n");
+        sb.append(df.format(Calendar.getInstance().getTime())).append("\n");
+        sb.append("-\n");
         itemsToBuy.forEach((item) -> {
-            sb.append(item.getName()).append("\n");
+            sb.append(item.getName()).append(" ").append(item.getPrice()).append("\n");
         });
-        sb.append("----------------\nOperator: ");
+        sb.append("Total: ").append(total).append("\n");
+        sb.append("-\nOperator: ");
         sb.append(user.getName()).append("\n");
-        sb.append("----------------\n");
+        sb.append("-\n");
 
         return sb.toString();
     }
 
-    private boolean fileExists() {
+    private boolean fileAndDirExists() {
         File checkFile = new File("Receipts");
-        File checkReceiptLog = new File("Receipts/"+df.format(Calendar.getInstance().getTime()));
-        return checkFile.isDirectory() && checkReceiptLog.exists();
+        File checkReceiptLog = new File("Receipts/" + df.format(Calendar.getInstance().getTime()));
+        return checkFile.isDirectory() && checkReceiptLog.isFile();
     }
 
     private void makeDirectoryAndFile() {
         try {
             new File("Receipts").mkdir();
-            new File("Receipts/"+df.format(Calendar.getInstance().getTime())).createNewFile();
+            new File("Receipts/" + df.format(Calendar.getInstance().getTime())).getParentFile().createNewFile();
         } catch (IOException ex) {
             Logger.getLogger(Receipt.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,7 +81,7 @@ class Receipt {
 
     private void writeTofile(String receiptString) {
         try {
-            FileWriter fw = new FileWriter(new File("Receipts/"+df.format(Calendar.getInstance().getTime())).getAbsoluteFile(), true);
+            FileWriter fw = new FileWriter(new File("Receipts/" + df.format(Calendar.getInstance().getTime())).getAbsoluteFile(), true);
             fw.write(receiptString);
         } catch (IOException ex) {
             Logger.getLogger(Receipt.class.getName()).log(Level.SEVERE, null, ex);

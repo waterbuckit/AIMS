@@ -26,11 +26,9 @@ public class StatusBar extends JPanel {
     private final CurrentTime timeCurrent;
     private final SeparatorPanel sepPanel;
     private final JLabel transactionLabel;
-    private int transactionNumber;
 
     public StatusBar() {
-        transactionNumber = 0;
-        transactionLabel = new JLabel(String.valueOf(ProcessHandler.getTransactionNumber()));
+        transactionLabel = new JLabel("#0");
         statusLayout = new GridLayout(1, 0, 1, 1);
         timeLabel = new JLabel();
         timeCurrent = new CurrentTime();
@@ -39,14 +37,14 @@ public class StatusBar extends JPanel {
     }
     
     public void setTransactionNumber(){
-        transactionNumber++;
-        transactionLabel.setText(String.valueOf(transactionNumber));
+        transactionLabel.setText("#"+String.valueOf(AIMS.instance.purchaseLog.getTransactionNumber()));
     }
     
     private void initialiseComponents() {
         this.add(timeLabel);
         this.add(sepPanel);
         this.add(transactionLabel);
+        this.add(sepPanel);
         this.setLayout(statusLayout);
         this.timeCurrent.getTime();
     }

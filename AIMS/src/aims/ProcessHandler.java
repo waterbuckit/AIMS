@@ -38,6 +38,10 @@ public class ProcessHandler {
         }
     }
     
+    static class Transactions{
+        
+    }
+    
     static class ItemObjectCreator {
 
     List<Item> items = new ArrayList<>();

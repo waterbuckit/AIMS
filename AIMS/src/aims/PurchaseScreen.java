@@ -415,7 +415,7 @@ public class PurchaseScreen extends javax.swing.JPanel {
         }
     }
     private void purchaseComplete() {
-        Receipt receipt = new Receipt(AIMS.instance.purchaseList.itemsToBuy, changeToGive, AIMS.instance.purchaseList.getUser(), transactionNum);
+        Receipt receipt = new Receipt(AIMS.instance.purchaseList.itemsToBuy, totalToPay, changeToGive, AIMS.instance.purchaseList.getUser(), transactionNum);
         receipt.makeReceipt();
         AIMS.instance.purchaseList.itemsToBuy.removeAll(AIMS.instance.purchaseList.itemsToBuy);
         AIMS.instance.purchaseList.listModel.removeAllElements();
