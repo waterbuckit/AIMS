@@ -48,17 +48,16 @@ class Receipt {
 
     private String generateString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(AIMS.instance.purchaseLog.getTransactionNumber()).append(";");
+        sb.append(AIMS.instance.status.getTransactionNum()).append(";");
         sb.append("Receipt;");
         sb.append(df.format(Calendar.getInstance().getTime())).append(";");
-        sb.append(";");
         itemsToBuy.forEach((item) -> {
             sb.append(item.getName()).append(" ").append(item.getPrice()).append(";");
         });
         sb.append("Total: ").append(total).append(";");
         sb.append("Operator: ");
         sb.append(user.getName()).append(";");
-        sb.append(";\n");
+        sb.append("\n");
         return sb.toString();
     }
 

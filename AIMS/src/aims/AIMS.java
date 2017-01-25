@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -66,6 +67,8 @@ public class AIMS implements Runnable {
         //switch to initial screen (like in future login screen?)
         //changes only the right hand screen/list is always there
         frame.setSize(1600, 900);
+        status.setTransactionNumber(purchaseLog.getTransactionNumber(new SimpleDateFormat("dd-MM-yyyy").format(
+                Calendar.getInstance().getTime())));
         try {
             boolean anyUsers = checkForUsers();
             if (anyUsers) {
@@ -76,7 +79,6 @@ public class AIMS implements Runnable {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
         }
-        status.setTransactionNumber(purchaseLog.getTransactionNumber());
     }
 
     public void switchToScreen(JPanel screen) {

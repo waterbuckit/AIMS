@@ -8,7 +8,6 @@ package aims;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,16 +19,6 @@ import java.util.stream.Collectors;
  * @author waterbucket
  */
 class Transactions {
-
-    List<Transaction> transactions;
-
-    public Transactions() {
-        transactions = new ArrayList<>();
-    }
-
-    void makeTransaction(Transaction trans) {
-        transactions.add(trans);
-    }
 
     public String findPreviousTransactions(String time, int transactionNumberNeeded) {
         File requiredDayFile = new File("Receipts/" + time);
@@ -43,11 +32,18 @@ class Transactions {
         }
         return null;
     }
-
-    int getTransactionNumber() {
-        return transactions.size();
+    
+    public int getTransactionNumber(String time) {
+        try {
+            File requiredDayFile = new File("Receipts/" + time);
+            int transactioNumber = (int) Files.lines(requiredDayFile.toPath()).count();
+            return transactioNumber;
+        } catch (IOException ex) {
+            Logger.getLogger(Transactions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
-
+    
     private String binarySearch(List<String> lines, int transactionNumberNeeded) {
         int low = 0;
         int high = lines.size() - 1;
@@ -64,9 +60,4 @@ class Transactions {
         }
         return "No such transaction";
     }
-
-    class Transaction {
-        String transDetails;
-        Transaction(String transDetails) {
-        }
-    }
+}
