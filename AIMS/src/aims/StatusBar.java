@@ -37,7 +37,11 @@ public class StatusBar extends JPanel {
         initialiseComponents();
     }
     
-    public void setTransactionNumber(){
+    public void setTransactionNumber(int num){
+        transactionNumber = num;
+    }
+    
+    public void incrementTransaction(){
         transactionNumber++;
         transactionLabel.setText("#"+String.valueOf(transactionNumber));
     }

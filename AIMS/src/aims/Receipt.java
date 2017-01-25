@@ -5,6 +5,7 @@
  */
 package aims;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,34 +34,31 @@ class Receipt {
         this.itemsToBuy = itemsToBuy;
         this.changeTogive = changeToGive;
         this.user = user;
-        this.df = new SimpleDateFormat("dd/MM/yyyy");
+        this.df = new SimpleDateFormat("dd-MM-yyyy");
     }
 
     public void makeReceipt() {
         if (!dirExists()) {
             makeDir();
-            makeFile();
             writeToFile(generateString());
-        } else if (dirExistsNotFile()) {
-            makeFile();
+        } else {
             writeToFile(generateString());
         }
     }
 
     private String generateString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("#").append(AIMS.instance.purchaseLog.getTransactionNumber()).append("\n");
-        sb.append("Receipt\n");
-        sb.append(df.format(Calendar.getInstance().getTime())).append("\n");
-        sb.append("-\n");
+        sb.append(AIMS.instance.purchaseLog.getTransactionNumber()).append(";");
+        sb.append("Receipt;");
+        sb.append(df.format(Calendar.getInstance().getTime())).append(";");
+        sb.append(";");
         itemsToBuy.forEach((item) -> {
-            sb.append(item.getName()).append(" ").append(item.getPrice()).append("\n");
+            sb.append(item.getName()).append(" ").append(item.getPrice()).append(";");
         });
-        sb.append("Total: ").append(total).append("\n");
-        sb.append("-\nOperator: ");
-        sb.append(user.getName()).append("\n");
-        sb.append("-\n");
-
+        sb.append("Total: ").append(total).append(";");
+        sb.append("Operator: ");
+        sb.append(user.getName()).append(";");
+        sb.append(";\n");
         return sb.toString();
     }
 
@@ -69,9 +67,9 @@ class Receipt {
     }
 
     private void writeToFile(String receiptString) {
-        try {
-            FileWriter fw = new FileWriter(new File("Receipts/" + df.format(Calendar.getInstance().getTime())).getAbsoluteFile(), true);
-            fw.write(receiptString);
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Receipts/" + df.format(Calendar.getInstance().getTime())).getAbsoluteFile(), true))) {
+            bw.write(receiptString);
+            bw.flush();
         } catch (IOException ex) {
             Logger.getLogger(Receipt.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,18 +78,5 @@ class Receipt {
     private boolean dirExists() {
         File checkDir = new File("Receipts");
         return checkDir.isDirectory();
-    }
-
-    private boolean dirExistsNotFile() {
-        File checkFile = new File("Receipts/" + df.format(Calendar.getInstance().getTime()));
-        return checkFile.isFile();
-    }
-
-    private void makeFile() {
-        try {
-            new File("Receipts/" + df.format(Calendar.getInstance().getTime() + ".txt")).createNewFile();
-        } catch (IOException ex) {
-            Logger.getLogger(Receipt.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

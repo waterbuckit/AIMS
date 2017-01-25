@@ -76,8 +76,7 @@ public class AIMS implements Runnable {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
         }
-        purchaseLog.addPreviousTransactions(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
-        File file = new File("Receipt");
+        status.setTransactionNumber(purchaseLog.getTransactionNumber());
     }
 
     public void switchToScreen(JPanel screen) {
