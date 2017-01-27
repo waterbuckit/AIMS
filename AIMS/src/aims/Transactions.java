@@ -41,7 +41,7 @@ class Transactions {
         } catch (IOException ex) {
             Logger.getLogger(Transactions.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        return 1;
     }
     
     private String binarySearch(List<String> lines, int transactionNumberNeeded) {

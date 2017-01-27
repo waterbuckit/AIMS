@@ -376,7 +376,7 @@ public class PurchaseList extends javax.swing.JPanel {
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         //Takes you to the function scren
-        AIMS.instance.switchToScreen(AIMS.instance.functionScreen);
+        transitionToFunctionScreen();
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
@@ -459,7 +459,12 @@ public class PurchaseList extends javax.swing.JPanel {
         listModel.removeElement(jList2.getSelectedValue());
         updateTotal();
     }
-
+    
+    private void transitionToFunctionScreen() {
+        AIMS.instance.frame.remove(AIMS.instance.itemSelect);
+        AIMS.instance.switchToScreen(new FunctionScreen());
+    }
+    
     private void transitionToPurchaseScreen() {
         // Remove the item selection JPanel
         jButton15.setEnabled(false);
