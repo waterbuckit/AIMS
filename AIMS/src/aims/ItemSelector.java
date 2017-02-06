@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  * @author waterbucket
  */
 public class ItemSelector extends JPanel {
-    
+
     ProcessHandler.ItemObjectCreator objectCreate;
     ArrayList<Item> items;
     final int rows;
@@ -28,7 +28,7 @@ public class ItemSelector extends JPanel {
     GridLayout theLayout;
     Set<String> categories;
 
-    public ItemSelector(AIMS instance) throws FileNotFoundException {
+    public ItemSelector() throws FileNotFoundException {
         //move things into here!
         this.objectCreate = new ProcessHandler.ItemObjectCreator();
         //Unlikely to stay as hard code
@@ -40,6 +40,12 @@ public class ItemSelector extends JPanel {
         //maybe changed because annoying compiler
         this.getItems();
         //get the purchaseList
+    }
+
+    public void reset() {
+        // remove all the current elements
+        this.removeAll();
+        this.setUpItems();
     }
 
     private void getItems() throws FileNotFoundException {
@@ -73,7 +79,7 @@ public class ItemSelector extends JPanel {
         //remove all components from the current JPanel
         this.removeAll();
         JPanel itemGrid = new JPanel();
-        itemGrid.setLayout(new GridLayout(2,2));
+        itemGrid.setLayout(new GridLayout(2, 2));
         //iterate over items and add them to list of items of category
         items.stream().filter((item) -> (item.getCategory().equals(cat))).forEachOrdered((item) -> {
             itemsOfCategory.add(item);

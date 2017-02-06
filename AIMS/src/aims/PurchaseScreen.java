@@ -340,6 +340,7 @@ public class PurchaseScreen extends javax.swing.JPanel {
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         AIMS.instance.frame.remove(this);
+        AIMS.instance.itemSelect.reset();
         AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
         AIMS.instance.purchaseList.jButton15.setEnabled(true);
     }//GEN-LAST:event_jButton17ActionPerformed
@@ -423,12 +424,7 @@ public class PurchaseScreen extends javax.swing.JPanel {
         AIMS.instance.status.incrementTransaction();
         AIMS.instance.purchaseList.itemsToBuy.removeAll(AIMS.instance.purchaseList.itemsToBuy);
         AIMS.instance.purchaseList.listModel.removeAllElements();
-        try {
-            AIMS.instance.switchToScreen(new ItemSelector(AIMS.instance));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PurchaseScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
         AIMS.instance.frame.remove(this);
     }
-
 }

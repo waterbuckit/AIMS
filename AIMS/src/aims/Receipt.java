@@ -54,7 +54,7 @@ class Receipt {
         itemsToBuy.forEach((item) -> {
             sb.append(item.getName()).append(" ").append(item.getPrice()).append(";");
         });
-        sb.append("Total: ").append(total).append(";");
+        sb.append("Total: ").append(String.format("%.2f", total)).append(";");
         sb.append("Operator: ");
         sb.append(user.getName()).append(";");
         sb.append("\n");

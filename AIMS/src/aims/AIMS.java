@@ -47,7 +47,7 @@ public class AIMS implements Runnable {
         this.functionScreen = new FunctionScreen();
         this.status = new StatusBar();
         try {
-            this.itemSelect = new ItemSelector(instance);
+            this.itemSelect = new ItemSelector();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
         }

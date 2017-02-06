@@ -8,7 +8,6 @@ package aims;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,12 +24,13 @@ class Transactions {
         try {
             // get all the lines of the file to a list ;
             List<String> lines = Files.lines(requiredDayFile.toPath()).collect(Collectors.toList());
+            // pass the list to the binarysearch method and assign the previous transaction string to the return
             String previousTransaction = binarySearch(lines, transactionNumberNeeded);
             return previousTransaction;
         } catch (IOException ex) {
             Logger.getLogger(Transactions.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return "There was no such transaction!";
     }
     
     public int getTransactionNumber(String time) {
@@ -51,7 +51,7 @@ class Transactions {
             int mid = low + (high - low) / 2;
             String[] wordsOfLine = lines.get(mid).split(";");
             if (Integer.parseInt(wordsOfLine[0]) == transactionNumberNeeded) {
-                return Arrays.toString(wordsOfLine);
+                return formatString(wordsOfLine);
             } else if (Integer.parseInt(wordsOfLine[0]) < transactionNumberNeeded) {
                 low = mid + 1;
             } else {
@@ -59,5 +59,13 @@ class Transactions {
             }
         }
         return "No such transaction";
+    }
+
+    private String formatString(String[] wordsOfLine) {
+        StringBuilder formattedString = new StringBuilder();
+        for(String wordOfLine : wordsOfLine){
+            formattedString.append(wordOfLine.replace(";", "\n"));
+        }
+        return formattedString.toString();
     }
 }

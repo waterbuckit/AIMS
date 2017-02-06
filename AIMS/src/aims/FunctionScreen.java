@@ -135,6 +135,7 @@ public class FunctionScreen extends javax.swing.JPanel {
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         AIMS.instance.frame.remove(this);
+        AIMS.instance.itemSelect.reset();
         AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
     }//GEN-LAST:event_jButton17ActionPerformed
 

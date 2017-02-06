@@ -463,6 +463,7 @@ public class PurchaseList extends javax.swing.JPanel {
     private void transitionToFunctionScreen() {
         AIMS.instance.frame.remove(AIMS.instance.itemSelect);
         AIMS.instance.switchToScreen(new FunctionScreen());
+        this.jButton15.setEnabled(false);
     }
     
     private void transitionToPurchaseScreen() {
