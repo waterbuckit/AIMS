@@ -357,7 +357,11 @@ public class PurchaseList extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        searchForItem();
+        try {
+            searchForItem();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PurchaseList.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
@@ -440,18 +444,14 @@ public class PurchaseList extends javax.swing.JPanel {
         jTextField1.setText(null);
     }
 
-    private void searchForItem() {
+    private void searchForItem() throws FileNotFoundException {
         int barcodeToSearch = Integer.parseInt(jTextField1.getText());
-        try {
-            for (Item item : new ProcessHandler.ItemObjectCreator().getItems()) {
-                if (item.getBarcode() == barcodeToSearch) {
-                    addItemToList(item);
-                }
+        for (Item item : new ProcessHandler.ItemObjectCreator().getItems()) {
+            if (item.getBarcode() == barcodeToSearch) {
+                addItemToList(item);
             }
-            clearTextField();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PurchaseList.class.getName()).log(Level.SEVERE, null, ex);
         }
+        clearTextField();
     }
 
     private void removeItemFroMList() {

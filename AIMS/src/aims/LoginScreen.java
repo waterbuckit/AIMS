@@ -7,7 +7,6 @@ package aims;
 
 import javax.swing.JLabel;
 
-
 /**
  *
  * @author waterbucket
@@ -16,11 +15,12 @@ public class LoginScreen extends javax.swing.JPanel {
 
     ProcessHandler.UserData makeUsers;
     static User user;
+
     public LoginScreen() {
-        
         initComponents();
+        checkIfUsers();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -276,7 +276,7 @@ public class LoginScreen extends javax.swing.JPanel {
         try {
             makeUsers = new ProcessHandler.UserData();
             user = new User(makeUsers.makeUserObject(jPasswordField1.getText()));
-            if(user != null){
+            if (user != null) {
                 AIMS.instance.purchaseList.setUser(user);
                 AIMS.instance.purchaseList.jButton15.setEnabled(false);
                 AIMS.instance.frame.remove(this);
@@ -289,11 +289,19 @@ public class LoginScreen extends javax.swing.JPanel {
             jPasswordField1.setText(null);
         }
     }
+
     private void appendToTextField(String i) {
         jPasswordField1.setText(jPasswordField1.getText() + i);
     }
 
     private void removeFromTextField() {
         jPasswordField1.setText(jPasswordField1.getText().substring(0, jPasswordField1.getText().length() - 1));
+    }
+
+    private void checkIfUsers() {
+        // 1. check if directory exists
+        // 2. check if userlist exists
+        // 3. check length of userlist to see if it is empty
+        
     }
 }

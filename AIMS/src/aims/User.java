@@ -17,15 +17,13 @@ package aims;
 public class User {
     
     String userName;
-    String rank;
     
     public User(String[] memVars) {
         userName = memVars[1];
-        rank = memVars[2];
     }
     @Override
     public String toString() {
-        return userName + " " + rank; 
+        return userName; 
     }
     
     public String getName(){
