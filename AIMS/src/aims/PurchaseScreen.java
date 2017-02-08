@@ -5,10 +5,7 @@
  */
 package aims;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -421,6 +418,7 @@ public class PurchaseScreen extends javax.swing.JPanel {
     private void purchaseComplete() {
         Receipt receipt = new Receipt(AIMS.instance.purchaseList.itemsToBuy, totalToPay, changeToGive, AIMS.instance.purchaseList.getUser(), AIMS.instance.status.getTransactionNum());
         receipt.makeReceipt();
+        AIMS.instance.itemSelect.reset();
         AIMS.instance.status.incrementTransaction();
         AIMS.instance.purchaseList.itemsToBuy.removeAll(AIMS.instance.purchaseList.itemsToBuy);
         AIMS.instance.purchaseList.listModel.removeAllElements();

@@ -158,7 +158,6 @@ public class PurchaseLogScreen extends javax.swing.JPanel {
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         AIMS.instance.frame.remove(this);
         AIMS.instance.switchToScreen(AIMS.instance.functionScreen);
-        AIMS.instance.purchaseList.jButton15.setEnabled(true);
     }//GEN-LAST:event_jButton17ActionPerformed
 
 

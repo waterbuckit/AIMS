@@ -9,12 +9,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import sun.security.util.Password;
 
 /**
  *
@@ -30,24 +30,28 @@ public class ProcessHandler {
 
     static class UserData {
 
-        public String[] makeUserObject(String password) throws FileNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        public String[] makeUserObject(String password) throws FileNotFoundException, NoSuchAlgorithmException {
+            File file = new File("Users/userList");
+            Scanner lines = new Scanner(file).useDelimiter("\n");
+            while (lines.hasNext()) {
+                String wordsOfLine[] = lines.next().split(":");
+                if (wordsOfLine[1].equals(hashPass(password))) {
+                    return wordsOfLine;
+                }
+            }
+            return null;
+        }
+
+        private String hashPass(String s) throws NoSuchAlgorithmException{
             MessageDigest m = MessageDigest.getInstance("MD5");
-            m.update(password.getBytes());
+            m.update(s.getBytes());
             byte[] bytesOfPass = m.digest();
             BigInteger bigInt = new BigInteger(1, bytesOfPass);
             String encodedPassword = bigInt.toString(16);
             while (encodedPassword.length() < 32) {
                 encodedPassword = "0" + encodedPassword;
             }
-            File file = new File("Users/userList");
-            Scanner lines = new Scanner(file).useDelimiter("\n");
-            while (lines.hasNext()) {
-                String wordsOfLine[] = lines.next().split(":");
-                if (wordsOfLine[1].equals(encodedPassword)) {
-                    return wordsOfLine;
-                }
-            }
-            return null;
+            return encodedPassword;
         }
     }
 
@@ -56,7 +60,7 @@ public class ProcessHandler {
         List<Item> items = new ArrayList<>();
 
         public List<Item> getItems() throws FileNotFoundException {
-            File file = new File("objectList.txt");
+            File file = new File("Items/itemList");
             Scanner lines = new Scanner(file) //Wrap a scanner around the file
                     .useDelimiter("\n"); //And make it's .next() method return 1 line
 

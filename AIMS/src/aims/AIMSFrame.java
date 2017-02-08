@@ -11,5 +11,5 @@ import javax.swing.JFrame;
  *
  * @author waterbucket
  */
-public class AIMSFrame extends JFrame{
+public class AIMSFrame extends JFrame {
 }

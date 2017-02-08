@@ -78,7 +78,6 @@ public class AIMS implements Runnable {
                 switchToScreen(new UserAddScreen());
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("Cauht");
             loginScreen.checkIfUsers();
             switchToScreen(new UserAddScreen());
         }
@@ -91,6 +90,6 @@ public class AIMS implements Runnable {
     }
 
     private boolean checkForUsers() throws FileNotFoundException {
-        return new File("Users/userList").exists();
+        return new File("Users/userList").exists() && new File("Users/userList").length() != 0;
     }
 }

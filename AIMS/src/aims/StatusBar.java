@@ -58,7 +58,7 @@ public class StatusBar extends JPanel {
     int getTransactionNum() {
         return transactionNumber;
     }
-
+    
     //getting the current time;
     class CurrentTime {
 

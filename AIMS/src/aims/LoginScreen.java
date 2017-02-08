@@ -297,6 +297,7 @@ public class LoginScreen extends javax.swing.JPanel {
                 AIMS.instance.frame.remove(this);
                 AIMS.instance.loggedIn = true;
                 AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
+//                AIMS.instance.status.setUsername();
                 AIMS.instance.status.add(new JLabel(user.userName));
                 AIMS.instance.status.repaint();
                 AIMS.instance.status.revalidate();
@@ -306,14 +307,14 @@ public class LoginScreen extends javax.swing.JPanel {
         }
     }
 
-    private String passwordToString(char[] chars){
+    private String passwordToString(char[] chars) {
         StringBuilder sb = new StringBuilder();
-        for(char character : chars){
+        for (char character : chars) {
             sb.append(character);
         }
         return sb.toString();
     }
-    
+
     private void appendToTextField(String i) {
         jPasswordField1.setText(jPasswordField1.getText() + i);
     }
