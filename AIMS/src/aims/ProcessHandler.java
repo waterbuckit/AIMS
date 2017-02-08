@@ -8,6 +8,7 @@ package aims;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,23 +31,26 @@ public class ProcessHandler {
     static class UserData {
 
         public String[] makeUserObject(String password) throws FileNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException {
-            byte[] passwordBytes;
-            passwordBytes = password.getBytes("UTF-8");
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            byte[] encodedBytes = messageDigest.digest(passwordBytes);
-            String encodedPassword = new String(encodedBytes, StandardCharsets.UTF_8);
-            File file = new File("userList");
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(password.getBytes());
+            byte[] bytesOfPass = m.digest();
+            BigInteger bigInt = new BigInteger(1, bytesOfPass);
+            String encodedPassword = bigInt.toString(16);
+            while (encodedPassword.length() < 32) {
+                encodedPassword = "0" + encodedPassword;
+            }
+            File file = new File("Users/userList");
             Scanner lines = new Scanner(file).useDelimiter("\n");
             while (lines.hasNext()) {
                 String wordsOfLine[] = lines.next().split(":");
-                if (wordsOfLine[0].equals(encodedPassword)) {
+                if (wordsOfLine[1].equals(encodedPassword)) {
                     return wordsOfLine;
                 }
             }
             return null;
         }
     }
-    
+
     static class ItemObjectCreator {
 
         List<Item> items = new ArrayList<>();

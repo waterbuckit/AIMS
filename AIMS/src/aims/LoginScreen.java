@@ -5,6 +5,11 @@
  */
 package aims;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import javax.swing.JLabel;
 
 /**
@@ -18,7 +23,7 @@ public class LoginScreen extends javax.swing.JPanel {
 
     public LoginScreen() {
         initComponents();
-        checkIfUsers();
+//        checkIfUsers();
     }
 
     /**
@@ -44,6 +49,12 @@ public class LoginScreen extends javax.swing.JPanel {
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -254,6 +265,10 @@ public class LoginScreen extends javax.swing.JPanel {
         removeFromTextField();
     }//GEN-LAST:event_jButton12ActionPerformed
 
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        makeNewUser();
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -275,21 +290,30 @@ public class LoginScreen extends javax.swing.JPanel {
     private void makeNewUser() {
         try {
             makeUsers = new ProcessHandler.UserData();
-            user = new User(makeUsers.makeUserObject(jPasswordField1.getText()));
+            user = new User(makeUsers.makeUserObject(passwordToString(jPasswordField1.getPassword())));
             if (user != null) {
                 AIMS.instance.purchaseList.setUser(user);
                 AIMS.instance.purchaseList.jButton15.setEnabled(false);
                 AIMS.instance.frame.remove(this);
+                AIMS.instance.loggedIn = true;
                 AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
                 AIMS.instance.status.add(new JLabel(user.userName));
                 AIMS.instance.status.repaint();
                 AIMS.instance.status.revalidate();
             }
-        } catch (Exception e) {
+        } catch (FileNotFoundException | UnsupportedEncodingException | NoSuchAlgorithmException e) {
             jPasswordField1.setText(null);
         }
     }
 
+    private String passwordToString(char[] chars){
+        StringBuilder sb = new StringBuilder();
+        for(char character : chars){
+            sb.append(character);
+        }
+        return sb.toString();
+    }
+    
     private void appendToTextField(String i) {
         jPasswordField1.setText(jPasswordField1.getText() + i);
     }
@@ -298,10 +322,17 @@ public class LoginScreen extends javax.swing.JPanel {
         jPasswordField1.setText(jPasswordField1.getText().substring(0, jPasswordField1.getText().length() - 1));
     }
 
-    private void checkIfUsers() {
+    public void checkIfUsers() {
         // 1. check if directory exists
         // 2. check if userlist exists
         // 3. check length of userlist to see if it is empty
-        
+        if (!new File("Users").isDirectory()) {
+            new File("Users").mkdirs();
+            try {
+                new File("Users/userList").createNewFile();
+            } catch (IOException ex) {
+                System.out.println("No such directory");
+            }
+        }
     }
 }

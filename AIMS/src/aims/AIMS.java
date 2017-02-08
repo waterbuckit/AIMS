@@ -51,6 +51,7 @@ public class AIMS implements Runnable {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.loggedIn = false;
     }
 
     @Override
@@ -73,10 +74,13 @@ public class AIMS implements Runnable {
             if (anyUsers) {
                 switchToScreen(loginScreen);
             } else {
+                loginScreen.checkIfUsers();
                 switchToScreen(new UserAddScreen());
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(AIMS.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Cauht");
+            loginScreen.checkIfUsers();
+            switchToScreen(new UserAddScreen());
         }
     }
 
@@ -87,8 +91,6 @@ public class AIMS implements Runnable {
     }
 
     private boolean checkForUsers() throws FileNotFoundException {
-        File file = new File("userList");
-        Scanner checkFile = new Scanner(file);
-        return checkFile.hasNext();
+        return new File("Users/userList").exists();
     }
 }

@@ -185,6 +185,12 @@ public class PurchaseList extends javax.swing.JPanel {
             }
         });
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         jButton13.setText("Clear");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -386,6 +392,14 @@ public class PurchaseList extends javax.swing.JPanel {
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         transitionToPurchaseScreen();
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        try {
+            searchForItem();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PurchaseList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     public void addItemToList(Item item) {
         jButton15.setEnabled(true);

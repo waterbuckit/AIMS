@@ -6,9 +6,12 @@
 package aims;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,6 +50,12 @@ public class UserAddScreen extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel2.setText("Add a User");
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel3.setText("Password");
 
@@ -55,6 +64,12 @@ public class UserAddScreen extends javax.swing.JPanel {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
             }
         });
 
@@ -71,13 +86,13 @@ public class UserAddScreen extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                     .addComponent(jPasswordField1))
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addGap(164, 164, 164))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(jButton1)
                 .addGap(247, 247, 247))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(275, 275, 275))
         );
@@ -101,13 +116,16 @@ public class UserAddScreen extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            addUser();
-            AIMS.instance.switchToScreen(AIMS.instance.functionScreen);
-        } catch (IOException ex) {
-            Logger.getLogger(UserAddScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        handleTheThings();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        handleTheThings();
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        handleTheThings();
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -120,18 +138,52 @@ public class UserAddScreen extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void addUser() throws IOException {
-        String password = toFormattedString(jPasswordField1.getPassword());
+        String password = hashPassword(toFormattedString(jPasswordField1.getPassword()));
         String[] newUserFields = {jTextField1.getText(), password};
-        for (String newUserField : newUserFields) {
-            Files.write(Paths.get("Users/userList"), newUserField.getBytes(), StandardOpenOption.APPEND);
-            Files.write(Paths.get("Users/userList"), ":".getBytes(), StandardOpenOption.APPEND);
-        }
+        Files.write(Paths.get("Users/userList"), newUserFields[0].getBytes(), StandardOpenOption.APPEND);
+        Files.write(Paths.get("Users/userList"), ":".getBytes(), StandardOpenOption.APPEND);
+        Files.write(Paths.get("Users/userList"), newUserFields[1].getBytes(), StandardOpenOption.APPEND);
+        Files.write(Paths.get("Users/userList"), "\n".getBytes(), StandardOpenOption.APPEND);
     }
-    private String toFormattedString(char[] chars){
+
+    private String toFormattedString(char[] chars) {
         StringBuilder sb = new StringBuilder();
-        for(char c : chars){
+        for (char c : chars) {
             sb.append(c);
         }
         return sb.toString();
+    }
+
+    private String hashPassword(String toFormattedString) {
+        try {
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(toFormattedString.getBytes());
+            byte[] bytesOfPass = m.digest();
+            BigInteger bigInt = new BigInteger(1, bytesOfPass);
+            String encodedPassword = bigInt.toString(16);
+            while (encodedPassword.length() < 32) {
+                encodedPassword = "0" + encodedPassword;
+            }
+            return encodedPassword;
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UserAddScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    private void handleTheThings() {
+        try {
+            addUser();
+            if (AIMS.instance.loggedIn != true) {
+                AIMS.instance.frame.remove(this);
+                AIMS.instance.switchToScreen(AIMS.instance.loginScreen);
+            } else {
+                AIMS.instance.frame.remove(this);
+                AIMS.instance.switchToScreen(AIMS.instance.functionScreen);
+            }
+//            AIMS.instance.switchToScreen(AIMS.instance.functionScreen);
+        } catch (IOException ex) {
+            Logger.getLogger(UserAddScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

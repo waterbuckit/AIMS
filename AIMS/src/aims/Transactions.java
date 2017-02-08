@@ -39,7 +39,6 @@ class Transactions {
             int transactioNumber = (int) Files.lines(requiredDayFile.toPath()).count();
             return transactioNumber;
         } catch (IOException ex) {
-            Logger.getLogger(Transactions.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 1;
     }

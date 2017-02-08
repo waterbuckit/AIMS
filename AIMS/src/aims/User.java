@@ -19,7 +19,7 @@ public class User {
     String userName;
     
     public User(String[] memVars) {
-        userName = memVars[1];
+        userName = memVars[0];
     }
     @Override
     public String toString() {
