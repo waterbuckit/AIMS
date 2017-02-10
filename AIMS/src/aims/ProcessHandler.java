@@ -14,7 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import sun.security.util.Password;
 
 /**
  *
@@ -41,7 +40,14 @@ public class ProcessHandler {
             }
             return null;
         }
-
+        
+        public void logOut(){
+            LoginScreen.user = null;
+            AIMS.instance.status.setUserLabel(null);
+            AIMS.instance.loggedIn = false;
+            AIMS.instance.switchToScreen(AIMS.instance.loginScreen);
+        }
+        
         private String hashPass(String s) throws NoSuchAlgorithmException{
             MessageDigest m = MessageDigest.getInstance("MD5");
             m.update(s.getBytes());

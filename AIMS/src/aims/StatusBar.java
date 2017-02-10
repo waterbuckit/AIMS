@@ -26,6 +26,7 @@ public class StatusBar extends JPanel {
     private final CurrentTime timeCurrent;
     private final SeparatorPanel sepPanel;
     private final JLabel transactionLabel;
+    private final JLabel userLabel;
     int transactionNumber;
     
     public StatusBar() {
@@ -34,11 +35,20 @@ public class StatusBar extends JPanel {
         timeLabel = new JLabel();
         timeCurrent = new CurrentTime();
         sepPanel = new SeparatorPanel(Color.lightGray, Color.lightGray);
+        userLabel = new JLabel();
         initialiseComponents();
     }
     
     public void setTransactionNumber(int num){
         transactionNumber = num;
+    }
+    
+    public void setUserLabel(User use){
+        if(use == null)
+            userLabel.setText(null);
+        else
+            userLabel.setText(use.getName());
+        this.add(userLabel);
     }
     
     public void incrementTransaction(){
@@ -58,7 +68,7 @@ public class StatusBar extends JPanel {
     int getTransactionNum() {
         return transactionNumber;
     }
-    
+
     //getting the current time;
     class CurrentTime {
 

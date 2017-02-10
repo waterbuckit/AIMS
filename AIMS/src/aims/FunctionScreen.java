@@ -5,6 +5,10 @@
  */
 package aims;
 
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author waterbucket
@@ -152,7 +156,11 @@ public class FunctionScreen extends javax.swing.JPanel {
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         AIMS.instance.frame.remove(this);
-        AIMS.instance.switchToScreen(new ItemLookUp());
+        try {
+            AIMS.instance.switchToScreen(new ItemLookUp());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FunctionScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
@@ -161,7 +169,8 @@ public class FunctionScreen extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        // TODO add your handling code here:
+        AIMS.instance.frame.remove(this);
+        AIMS.instance.switchToScreen(new UserAddScreen());
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
@@ -169,7 +178,9 @@ public class FunctionScreen extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        // TODO add your handling code here:
+       ProcessHandler.UserData use = new ProcessHandler.UserData();
+       AIMS.instance.frame.remove(this);
+       use.logOut();
     }//GEN-LAST:event_jButton22ActionPerformed
 
 

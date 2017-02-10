@@ -8,10 +8,7 @@ package aims;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import javax.swing.JLabel;
-
 /**
  *
  * @author waterbucket
@@ -297,12 +294,12 @@ public class LoginScreen extends javax.swing.JPanel {
                 AIMS.instance.frame.remove(this);
                 AIMS.instance.loggedIn = true;
                 AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
-//                AIMS.instance.status.setUsername();
-                AIMS.instance.status.add(new JLabel(user.userName));
+                AIMS.instance.status.setUserLabel(user);
                 AIMS.instance.status.repaint();
                 AIMS.instance.status.revalidate();
+                jPasswordField1.setText(null);
             }
-        } catch (FileNotFoundException | UnsupportedEncodingException | NoSuchAlgorithmException e) {
+        } catch (FileNotFoundException | NoSuchAlgorithmException e) {
             jPasswordField1.setText(null);
         }
     }
