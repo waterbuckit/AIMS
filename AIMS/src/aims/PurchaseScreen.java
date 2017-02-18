@@ -5,7 +5,10 @@
  */
 package aims;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,11 +23,9 @@ public class PurchaseScreen extends javax.swing.JPanel {
     private double total;
     private double totalToPay;
     private double changeToGive;
-    private final int transactionNum;
 
-    public PurchaseScreen(double total, int transactionNum) {
+    public PurchaseScreen(double total) {
         initComponents();
-        this.transactionNum = transactionNum;
         this.previousTotals = new ArrayList<>();
         this.total = 0;
         this.changeToGive = 0;
@@ -337,7 +338,11 @@ public class PurchaseScreen extends javax.swing.JPanel {
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         AIMS.instance.frame.remove(this);
-        AIMS.instance.itemSelect.reset();
+        try {
+            AIMS.instance.itemSelect.reset();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PurchaseScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
         AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
         AIMS.instance.purchaseList.jButton15.setEnabled(true);
     }//GEN-LAST:event_jButton17ActionPerformed
@@ -418,7 +423,11 @@ public class PurchaseScreen extends javax.swing.JPanel {
     private void purchaseComplete() {
         Receipt receipt = new Receipt(AIMS.instance.purchaseList.itemsToBuy, totalToPay, changeToGive, AIMS.instance.purchaseList.getUser(), AIMS.instance.status.getTransactionNum());
         receipt.makeReceipt();
-        AIMS.instance.itemSelect.reset();
+        try {
+            AIMS.instance.itemSelect.reset();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PurchaseScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
         AIMS.instance.status.incrementTransaction();
         AIMS.instance.purchaseList.itemsToBuy.removeAll(AIMS.instance.purchaseList.itemsToBuy);
         AIMS.instance.purchaseList.listModel.removeAllElements();

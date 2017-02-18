@@ -11,10 +11,10 @@ package aims;
  */
 public class Item {
 
-    private final String name;
-    private final int barcode;
-    private final double price;
-    private final String category;
+    private String name;
+    private int barcode;
+    private double price;
+    private String category;
 
     public Item(String line) throws Exception {
         try {
@@ -45,7 +45,22 @@ public class Item {
     public String getCategory() {
         return category;
     }
-
+    // setters
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setBarcode(int num){
+        this.barcode = num;
+    }
+    public void setPrice(double price){
+        this.price = price;
+    }
+    public void setCategory(String category){
+        this.category = category;
+    }
+    public String toFormattedString(){
+        return name + ":" + barcode + ":" + price + ":" + category + "\n";
+    }
     //alt+insert -> select toString(), check all, let netbeans do the work for you
     @Override
     public String toString() {

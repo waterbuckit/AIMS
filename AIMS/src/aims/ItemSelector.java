@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,43 +22,43 @@ import javax.swing.JPanel;
  */
 public class ItemSelector extends JPanel {
 
-    ProcessHandler.ItemObjectCreator objectCreate;
-    ArrayList<Item> items;
-    final int rows;
-    final int cols;
+    ProcessHandler.ItemObjectManipulator objectCreate;
+    private ArrayList<Item> itemsList;
+    private final int rows;
+    private final int cols;
     GridLayout theLayout;
-    Set<String> categories;
+    private Set<String> categories;
 
     public ItemSelector() throws FileNotFoundException {
         //move things into here!
-        this.objectCreate = new ProcessHandler.ItemObjectCreator();
+        this.objectCreate = new ProcessHandler.ItemObjectManipulator();
         //Unlikely to stay as hard code
         this.rows = 7;
         this.cols = 7;
         this.categories = new HashSet();
         this.theLayout = new GridLayout(rows, cols, 1, 1);
-        this.items = new ArrayList();
+        this.itemsList = new ArrayList();
         //maybe changed because annoying compiler
         this.getItems();
         //get the purchaseList
     }
 
-    public void reset() {
-        // remove all the current elements
+    public void reset() throws FileNotFoundException {
         this.removeAll();
-        this.setUpItems();
+        this.itemsList.clear();
+        this.getItems();
+        if(AIMS.instance.purchaseList.getTotal() > 0){
+            AIMS.instance.purchaseList.jButton15.setEnabled(true);
+        }
     }
 
     private void getItems() throws FileNotFoundException {
-        items = (ArrayList<Item>) objectCreate.getItems();
+        itemsList = (ArrayList<Item>) objectCreate.getItemsAsList();
         setUpItems();
     }
-//    private Map<String, JButton> buttonMap;
-    //          vvvvvvvvvvvv BAD. 
 
     public void setUpItems() {
-//        objectCreate.items.forEach(System.err::println);
-        categories = objectCreate.items.stream().distinct().map(s -> s.getCategory()).collect(Collectors.toSet());
+        categories = this.itemsList.stream().distinct().map(s -> s.getCategory()).collect(Collectors.toSet());
         this.setLayout(theLayout);
         categories.stream().forEach((category) -> {
             addCategoryButton(category);
@@ -81,7 +82,8 @@ public class ItemSelector extends JPanel {
         JPanel itemGrid = new JPanel();
         itemGrid.setLayout(new GridLayout(2, 2));
         //iterate over items and add them to list of items of category
-        items.stream().filter((item) -> (item.getCategory().equals(cat))).forEachOrdered((item) -> {
+        itemsList.stream().filter((item) -> (item.getCategory().equals(cat))).forEachOrdered((item) -> {
+            System.out.println(item);
             itemsOfCategory.add(item);
         });
         //make a button for each item

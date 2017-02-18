@@ -5,15 +5,20 @@
  */
 package aims;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,15 +45,15 @@ public class ProcessHandler {
             }
             return null;
         }
-        
-        public void logOut(){
+
+        public void logOut() {
             LoginScreen.user = null;
             AIMS.instance.status.setUserLabel(null);
             AIMS.instance.loggedIn = false;
             AIMS.instance.switchToScreen(AIMS.instance.loginScreen);
         }
-        
-        private String hashPass(String s) throws NoSuchAlgorithmException{
+
+        private String hashPass(String s) throws NoSuchAlgorithmException {
             MessageDigest m = MessageDigest.getInstance("MD5");
             m.update(s.getBytes());
             byte[] bytesOfPass = m.digest();
@@ -61,15 +66,17 @@ public class ProcessHandler {
         }
     }
 
-    static class ItemObjectCreator {
+    static class ItemObjectManipulator {
 
-        List<Item> items = new ArrayList<>();
+        List<Item> itemsList = new ArrayList<>();
+        HashMap<Item, Integer> items = new HashMap<>();
 
-        public List<Item> getItems() throws FileNotFoundException {
+        public HashMap<Item, Integer> getItemsAsMap() throws FileNotFoundException {
             File file = new File("Items/itemList");
             Scanner lines = new Scanner(file) //Wrap a scanner around the file
                     .useDelimiter("\n"); //And make it's .next() method return 1 line
 
+            Integer lineNum = 0;
             //classic method 
             while (lines.hasNext()) {
                 String line = lines.next();
@@ -77,7 +84,8 @@ public class ProcessHandler {
                 //would be better if it was global and configurable
                 try {
                     Item item = new Item(line);
-                    this.items.add(item);
+                    this.items.put(item, lineNum);
+                    lineNum++;
                 } catch (Exception e) {
                     //oh no, a malformed item! What will I do?
                     //I will inform the user there was a problem in the file!
@@ -104,6 +112,58 @@ public class ProcessHandler {
             //And finally show our sweet results.
 //        this.printList();
             return items;
+        }
+
+        public List<Item> getItemsAsList() throws FileNotFoundException {
+            File file = new File("Items/itemList");
+            Scanner lines = new Scanner(file) //Wrap a scanner around the file
+                    .useDelimiter("\n"); //And make it's .next() method return 1 line
+            //classic method 
+            while (lines.hasNext()) {
+                String line = lines.next();
+                //check it in the file.
+                //would be better if it was global and configurable
+                try {
+                    Item item = new Item(line);
+                    this.itemsList.add(item);
+                } catch (Exception e) {
+                    //oh no, a malformed item! What will I do?
+                    //I will inform the user there was a problem in the file!
+                    System.err.println(e.getMessage());
+                    //Because we already created an informative message in the Item
+                    //constructor
+                    //We still want to add any other valid items, so we are not gonna quit
+                }
+            }
+            //Done! Now, remove the comments and see how simple this is.
+
+            //lambda method, completely identical to the part above
+            //---------UNCOMMENT
+//        lines.forEachRemaining((String t) -> { //for every string
+//            try { //try to add a new item, made up by splitting the line on a ':'
+//                ObjectCreator.this.items.add(new Item(t.split(":")));
+//            } catch (Exception ex) {
+//                //if error occurs, say why.
+//                System.err.println(ex.getMessage());
+//            }
+//        });
+            //---------UNCOMMENT
+            //Done!
+            //And finally show our sweet results.
+//        this.printList();
+            return itemsList;
+        }
+
+        void updateItems(ArrayList<Item> listOfItems) throws IOException {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Items/itemList"), false));
+            listOfItems.forEach((item) -> {
+                try {
+                    bw.write(item.toFormattedString());
+                    bw.flush();
+                } catch (IOException ex) {
+                    Logger.getLogger(ProcessHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
         }
     }
 }

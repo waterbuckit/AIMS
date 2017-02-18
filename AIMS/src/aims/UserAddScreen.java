@@ -5,6 +5,7 @@
  */
 package aims;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Files;
@@ -143,7 +144,11 @@ public class UserAddScreen extends javax.swing.JPanel {
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         AIMS.instance.frame.remove(this);
-        AIMS.instance.itemSelect.reset();
+        try {
+            AIMS.instance.itemSelect.reset();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserAddScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
         AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
     }//GEN-LAST:event_jButton17ActionPerformed
 

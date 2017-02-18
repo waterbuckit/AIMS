@@ -35,9 +35,6 @@ public class PurchaseList extends javax.swing.JPanel {
      * @param num
      * @param user new value of user
      */
-    private void setTransactionNum(int num){
-        this.transactionNum = num;
-    }
     public final void setUser(User user) {
         Stream.of(getComponents()).forEach((t) -> {
             t.setEnabled(user != null);
@@ -52,18 +49,13 @@ public class PurchaseList extends javax.swing.JPanel {
     ArrayList<Item> itemsToBuy;
     DefaultListModel<Item> listModel;
     double total;
-
+    
     public PurchaseList(ItemSelector itemselect) {
         listModel = new DefaultListModel<>();
         itemsToBuy = new ArrayList<>();
-
-//        jList2.setCellRenderer(new DefaultListCellRenderer(){
-//            @Override
-//            public Component getLComponent(JList jList2, Object theItem,)
-//        });
         initComponents();
         setUser(null);
-//        setTransactionNum(ProcessHandler.getTransactionNumber());
+        updateTotal();
     }
 
     /**
@@ -417,7 +409,7 @@ public class PurchaseList extends javax.swing.JPanel {
         });
         jButton15.setText("To pay: £" + String.format("%.2f", total));
     }
-
+    
     public double getTotal() {
         return total;
     }
@@ -460,7 +452,7 @@ public class PurchaseList extends javax.swing.JPanel {
 
     private void searchForItem() throws FileNotFoundException {
         int barcodeToSearch = Integer.parseInt(jTextField1.getText());
-        for (Item item : new ProcessHandler.ItemObjectCreator().getItems()) {
+        for (Item item : new ProcessHandler.ItemObjectManipulator().getItemsAsList()) {
             if (item.getBarcode() == barcodeToSearch) {
                 addItemToList(item);
             }
@@ -471,6 +463,9 @@ public class PurchaseList extends javax.swing.JPanel {
     private void removeItemFroMList() {
         itemsToBuy.remove(jList2.getSelectedValue());
         listModel.removeElement(jList2.getSelectedValue());
+        if(listModel.size() == 0){
+            jButton15.setEnabled(false);
+        }
         updateTotal();
     }
     
@@ -484,6 +479,6 @@ public class PurchaseList extends javax.swing.JPanel {
         // Remove the item selection JPanel
         jButton15.setEnabled(false);
         AIMS.instance.frame.remove(AIMS.instance.itemSelect);
-        AIMS.instance.switchToScreen(new PurchaseScreen(total, transactionNum));
+        AIMS.instance.switchToScreen(new PurchaseScreen(total));
     }
 }

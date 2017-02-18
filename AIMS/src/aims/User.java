@@ -16,7 +16,7 @@ package aims;
 
 public class User {
     
-    String userName;
+    private final String userName;
     
     public User(String[] memVars) {
         userName = memVars[0];

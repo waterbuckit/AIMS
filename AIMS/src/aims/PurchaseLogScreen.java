@@ -11,7 +11,7 @@ package aims;
  */
 public class PurchaseLogScreen extends javax.swing.JPanel {
 
-    Transactions currentTransaction = null;
+    private Transactions currentTransaction = null;
     
     /**
      * Creates new form PurchaseLogScreen
