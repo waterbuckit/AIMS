@@ -39,7 +39,6 @@ public class ReportPieChart extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         segments.forEach((segment) -> {
             // gets us a random colour 
-            g2d.setColor(getColour());
             // draw the current segment being iterated over
             segment.draw(g2d);
             System.out.println("I am called!");
@@ -56,7 +55,7 @@ public class ReportPieChart extends JPanel {
         }
         for (int i = 0; i < segmentExtents.size(); i++) {
             if (i == 0) {
-                System.out.println("I am called!");
+                // KILL ME 
                 segments.add(new Segment(0.0, segmentExtents.get(i), this.getSize()));
             } else {
                 segments.add(new Segment(sumOfBeforeValues, segmentExtents.get(i), this.getSize()));
@@ -87,7 +86,7 @@ public class ReportPieChart extends JPanel {
         private final double angle;
         int panelX;
         int panelY;
-
+        Color colour;
         public Segment(Double previousExtent, Double i, Dimension panelSize) {
             this.previousExtent = previousExtent;
             System.out.println("PREVIOUS EXTENT" + this.previousExtent);
@@ -97,9 +96,10 @@ public class ReportPieChart extends JPanel {
             System.out.println("X " + panelX);
             this.panelY = (int) (panelSize.getHeight() / 2);
             System.out.println("Y " + panelY);
+            this.colour = getColour();
         }
-
         private void draw(Graphics2D g2d) {
+            g2d.setColor(colour);
             g2d.fillArc(panelX, panelY, 100, 100, (int) previousExtent, (int) angle);
         }
     }
