@@ -5,32 +5,53 @@
  */
 package aims;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-import javax.swing.JPanel;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 /**
- *
  * @author waterbucket
  */
 public class ReportPieChart extends JPanel {
-
-    // final as values do not change
-    private final HashMap<String, Integer> values;
-//    private HashMap<HashMap.Entry<String, Integer>, Double> valuesWithAngleSize;
+    /**
+     * ArrayList to store segments of the piechart
+     */
     private final ArrayList<Segment> segments;
-    private final ArrayList<Double> segmentExtents;
+    private Random random = new Random(5);
 
-    public ReportPieChart(HashMap<String, Integer> values) {
-        segments = new ArrayList<>();
-        segmentExtents = new ArrayList<>();
-        this.values = values;
-        calculateForEach();
+    /**
+     * Construct pie chart with pairings of name -> relative value
+     *
+     * @param values map of items
+     */
+    ReportPieChart(HashMap<String, Integer> values) {
+        segments = calculateForEach(values);
+    }
+
+    /**
+     * Test case: One frame filled with the piechart
+     * SHOULD APPEAR AS: 1half 1quarter and 1quarter randomly coloured
+     *
+     * @param args ignored
+     */
+    public static void main(String[] args) {
+        ReportPieChart panel = new ReportPieChart(new HashMap<String, Integer>() {{
+            put("Half", 20);
+            put("Oranges", 5);
+            put("Bananas", 5);
+            put("Quarter", 10);
+        }});
+        JFrame frame = new JFrame();
+        frame.setContentPane(panel);
+        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
     @Override
@@ -38,42 +59,38 @@ public class ReportPieChart extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         segments.forEach((segment) -> {
-            // gets us a random colour 
             // draw the current segment being iterated over
-            segment.draw(g2d);
-            System.out.println("I am called!");
+            segment.draw(g2d, getVisibleRect());
         });
     }
 
-    private void calculateForEach() {
-        // work out the total 
-        double sumOfBeforeValues = 0;
-        int total = calcTotalOfMapValues();
-        for (HashMap.Entry<String, Integer> entry : values.entrySet()) {
-            double extent = (float) entry.getValue() / total * 360;
-            segmentExtents.add(extent);
+    /**
+     * Converts the map of title->value to segments
+     *
+     * @param values hashmap
+     * @return segments
+     */
+    private ArrayList<Segment> calculateForEach(HashMap<String, Integer> values) {
+        double angleCovered = 0;
+        int total = values.values().stream().mapToInt(s -> s).sum();
+        ArrayList<Segment> ret = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : values.entrySet()) {
+            float angle = 360 / ((float) total / entry.getValue());
+            Segment seg = new Segment(angleCovered, angle, entry.getKey());
+            angleCovered += angle; //increase covered angle, after creating segment.
+            ret.add(seg); //add to return collection
         }
-        for (int i = 0; i < segmentExtents.size(); i++) {
-            if (i == 0) {
-                // KILL ME 
-                segments.add(new Segment(0.0, segmentExtents.get(i), this.getSize()));
-            } else {
-                segments.add(new Segment(sumOfBeforeValues, segmentExtents.get(i), this.getSize()));
-            }
-            sumOfBeforeValues += segmentExtents.get(i);
-        }
+        System.out.println(ret);
+        return ret;
     }
 
-    private int calcTotalOfMapValues() {
-        int total = 0;
-        for (HashMap.Entry<String, Integer> entry : values.entrySet()) {
-            total = total + entry.getValue();
-        }
-        return total;
-    }
-
-    private Color getColour() {
-        Random random = new Random();
+    /**
+     * Generate random colour
+     * Random is initialised with 1 as a seed, so that on every run the colours are the same for the same elements.
+     *
+     * @return a random colour
+     */
+    private Color generateColour() {
         final float hue = random.nextFloat();
         final float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
         final float luminance = 1.0f; //1.0 for brighter, 0.0 for black
@@ -82,25 +99,48 @@ public class ReportPieChart extends JPanel {
 
     class Segment {
 
-        private final double previousExtent;
+        final String text;
+
+        private final double start;
         private final double angle;
-        int panelX;
-        int panelY;
+        private final double mid;
         Color colour;
-        public Segment(Double previousExtent, Double i, Dimension panelSize) {
-            this.previousExtent = previousExtent;
-            System.out.println("PREVIOUS EXTENT" + this.previousExtent);
-            this.angle = i + this.previousExtent;
-            System.out.println("new ANGLE " + this.angle);
-            this.panelX = (int) (panelSize.getWidth() / 2);
-            System.out.println("X " + panelX);
-            this.panelY = (int) (panelSize.getHeight() / 2);
-            System.out.println("Y " + panelY);
-            this.colour = getColour();
+
+        Segment(double start, double angle, String text) {
+            colour = generateColour();
+            this.start = start;
+            this.angle = angle;
+            this.text = text;
+            this.mid = start + (angle / 2);
+            System.out.println(mid);
         }
-        private void draw(Graphics2D g2d) {
-            g2d.setColor(colour);
-            g2d.fillArc(panelX, panelY, 100, 100, (int) previousExtent, (int) angle);
+
+        private void draw(Graphics2D g2d, Rectangle size) {
+            g2d.setColor(this.getColour());
+            g2d.fillArc(size.x, size.y, size.width, size.height, (int) start, (int) angle);
+            int x = size.width - size.x;
+            int y = size.height - size.y;
+            int centrex = x / 2;
+            int centrey = y / 2;
+            int textx = (int) ((x / 4) * sin(Math.toRadians(mid + 90)) + centrex);
+            int texty = (int) ((y / 4) * cos(Math.toRadians(mid + 90)) + centrey);
+            g2d.setColor(Color.BLACK);
+            g2d.drawString(text, textx, texty);
+        }
+
+        @Override
+        public String toString() {
+            return "Segment{" +
+                    "text='" + text + '\'' +
+                    ", start=" + start +
+                    ", angle=" + angle +
+                    ", mid=" + mid +
+                    ", colour=" + colour +
+                    '}';
+        }
+
+        Color getColour() {
+            return colour;
         }
     }
 }

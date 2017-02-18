@@ -9,6 +9,7 @@
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/ProcessHandler.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/FunctionScreen.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/Transactions.java</file>
+            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/ReportPieChart.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/ItemLookUp.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/LoginScreen.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/PurchaseList.java</file>
@@ -18,6 +19,7 @@
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/AIMS.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/User.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/Receipt.java</file>
+            <file>file:/home/waterbucket/AIMS/AIMS/src/aims/Report.java</file>
             <file>file:/home/waterbucket/AIMS/AIMS/src/aims/Item.java</file>
         </group>
     </open-files>

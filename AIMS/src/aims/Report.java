@@ -109,5 +109,7 @@ public class Report extends javax.swing.JPanel {
 
     private void generateReport(HashMap<String, Integer> myMap) {
         jPanel1.add(new ReportPieChart(myMap));
+        repaint();
+        revalidate();
     }
 }
