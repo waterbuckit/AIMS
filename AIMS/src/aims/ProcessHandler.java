@@ -114,6 +114,10 @@ public class ProcessHandler {
             return items;
         }
 
+        public void addItem(String itemData) throws Exception {
+            itemsList.add(new Item(itemData));
+        }
+
         public List<Item> getItemsAsList() throws FileNotFoundException {
             File file = new File("Items/itemList");
             Scanner lines = new Scanner(file) //Wrap a scanner around the file

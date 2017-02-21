@@ -44,7 +44,7 @@ public class ReportPieChart extends JPanel {
         ReportPieChart panel = new ReportPieChart(new HashMap<String, Integer>() {{
             put("Half", 20);
             put("Oranges", 5);
-            put("Bananas", 5);
+            put("Bananas", 40);
             put("Quarter", 10);
         }});
         JFrame frame = new JFrame();
@@ -80,7 +80,7 @@ public class ReportPieChart extends JPanel {
             angleCovered += angle; //increase covered angle, after creating segment.
             ret.add(seg); //add to return collection
         }
-        System.out.println(ret);
+//        System.out.println(ret);
         return ret;
     }
 
@@ -112,7 +112,7 @@ public class ReportPieChart extends JPanel {
             this.angle = angle;
             this.text = text;
             this.mid = start + (angle / 2);
-            System.out.println(mid);
+//            System.out.println(mid);
         }
 
         private void draw(Graphics2D g2d, Rectangle size) {
