@@ -8,6 +8,8 @@ package aims;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,29 @@ class Transactions {
             Logger.getLogger(Transactions.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "There was no such transaction!";
+    }
+    
+    public HashMap<String, Integer> getCategoryAmounts(String timeStart, String timeFinish){
+        HashMap<String, Integer> categoryQuantities = new HashMap<>();
+        // get all of our files
+        File[] files = new File("Receipts").listFiles();
+        // sort our list of files in date order
+        Arrays.sort(files, (a, b) -> Long.compare(a.lastModified(), b.lastModified()));
+        // get the range of files we need, so that will be all files between time start finish
+        for(int i = 0; i < files.length; i++){
+            if(files[i].getName().equals(timeStart)){
+                for(int j = i; j < files.length; j++){
+                    if(!files[j].getName().equals(timeFinish)){
+                        categoryQuantities = calculateTotalPerCategory(files[j], categoryQuantities);
+                    }else{
+                        categoryQuantities = calculateTotalPerCategory(files[j], categoryQuantities);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        return categoryQuantities;
     }
     
     public int getTransactionNumber(String time) {
@@ -67,4 +92,9 @@ class Transactions {
         }
         return formattedString.toString();
     }
+
+    private HashMap<String, Integer> calculateTotalPerCategory(File file, HashMap<String, Integer> categoryQuantities) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

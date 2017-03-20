@@ -60,7 +60,7 @@ public class ReportPieChart extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         segments.forEach((segment) -> {
             // draw the current segment being iterated over
-            segment.draw(g2d, getVisibleRect());
+            segment.draw(g2d, new Rectangle(300,300));
         });
     }
 

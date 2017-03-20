@@ -50,11 +50,13 @@ class Receipt {
         StringBuilder sb = new StringBuilder();
         sb.append(AIMS.instance.status.getTransactionNum()).append(";");
         sb.append("Receipt;");
-        sb.append(df.format(Calendar.getInstance().getTime())).append(";");
+        sb.append(df.format(Calendar.getInstance().getTime())).append(",");
         itemsToBuy.forEach((item) -> {
-            sb.append(item.getName()).append(" ").append(item.getPrice()).append(";");
+            sb.append(item.getName()).append("~").append(item.getPrice())
+                    .append("~").append(item.getCategory()).append(",");
         });
         sb.append("Total: ").append(String.format("%.2f", total)).append(";");
+        sb.append("Change: ").append(changeTogive).append(";");
         sb.append("Operator: ");
         sb.append(user.getName()).append(";");
         sb.append("\n");

@@ -22,7 +22,8 @@ public class Item {
             this.name = memVars[0];
             this.barcode = Integer.parseInt(memVars[1]);
             this.price = Double.parseDouble(memVars[2]);
-            this.category = memVars[3];
+            this.category = formatCategory(memVars[3]);
+//            this.category = memVars[3];
         } catch (Exception e) {
             throw new Exception("Could not convert <" + line + "> to a valid object - " + e.getMessage());
         }
@@ -65,5 +66,9 @@ public class Item {
     @Override
     public String toString() {
         return "£" + String.format("%.2f", getPrice()) + " " + getName();
+    }
+
+    private String formatCategory(String memVar) {
+        return memVar.replaceAll("\\r\\n|\\r|\\n", "");
     }
 }

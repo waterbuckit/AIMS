@@ -45,10 +45,13 @@ public class ItemSelector extends JPanel {
 
     public void reset() throws FileNotFoundException {
         this.removeAll();
+        this.categories.clear();
         this.itemsList.clear();
         this.getItems();
         if(AIMS.instance.purchaseList.getTotal() > 0){
             AIMS.instance.purchaseList.jButton15.setEnabled(true);
+        }else{
+            AIMS.instance.purchaseList.jButton15.setEnabled(false);
         }
     }
 

@@ -285,21 +285,21 @@ public class LoginScreen extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void makeNewUser() {
+        makeUsers = new ProcessHandler.UserData();
         try {
-            makeUsers = new ProcessHandler.UserData();
             user = new User(makeUsers.makeUserObject(passwordToString(jPasswordField1.getPassword())));
-            if (user != null) {
-                AIMS.instance.purchaseList.setUser(user);
-                AIMS.instance.purchaseList.jButton15.setEnabled(false);
-                AIMS.instance.frame.remove(this);
-                AIMS.instance.loggedIn = true;
-                AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
-                AIMS.instance.status.setUserLabel(user);
-                AIMS.instance.status.repaint();
-                AIMS.instance.status.revalidate();
-                jPasswordField1.setText(null);
-            }
         } catch (FileNotFoundException | NoSuchAlgorithmException e) {
+            jPasswordField1.setText(null);
+        }
+        if (user != null) {
+            AIMS.instance.purchaseList.setUser(user);
+            AIMS.instance.purchaseList.jButton15.setEnabled(false);
+            AIMS.instance.frame.remove(this);
+            AIMS.instance.loggedIn = true;
+            AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
+            AIMS.instance.status.setUserLabel(user);
+            AIMS.instance.status.repaint();
+            AIMS.instance.status.revalidate();
             jPasswordField1.setText(null);
         }
     }
