@@ -100,7 +100,6 @@ class Transactions {
         try {
             // search the file
             Scanner s = new Scanner(file);
-            System.out.println(file.getName());
             s.useDelimiter("\n");
             while (s.hasNext()) {
                 // get the line currently being iterated over
