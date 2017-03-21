@@ -126,16 +126,12 @@ class Transactions {
         return categoryQuantities;
     }
 
-    public static void main(String[] args) {
-        HashMap<String, Integer> myMap = new Transactions().getCategoryAmounts("20-03-2017", "20-03-2017");
-        myMap.entrySet().stream().map((entry) -> {
-            String key = entry.getKey();
-            return entry;
-        }).map((entry) -> {
-            Integer value = entry.getValue();
-            return entry;
-        }).forEachOrdered((_item) -> {
-            System.out.println("Key: " + "Value: ");
-        });
-    }
+//    public static void main(String[] args) {
+//        HashMap<String, Integer> myMap = new Transactions().getCategoryAmounts("20-03-2017", "20-03-2017");
+//        for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
+//            String key = entry.getKey();
+//            Integer value = entry.getValue();
+//            System.out.println("Key: " + key + " Value: " + value);
+//        }
+//    }
 }
