@@ -32,8 +32,8 @@ public class ReportPieChart extends JPanel {
      */
     ReportPieChart(HashMap<String, Integer> values) {
         segments = calculateForEach(values);
+        this.setSize(new Dimension(300,300));
     }
-
     /**
      * Test case: One frame filled with the piechart
      * SHOULD APPEAR AS: 1half 1quarter and 1quarter randomly coloured
