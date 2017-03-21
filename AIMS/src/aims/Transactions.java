@@ -6,11 +6,14 @@
 package aims;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -34,20 +37,20 @@ class Transactions {
         }
         return "There was no such transaction!";
     }
-    
-    public HashMap<String, Integer> getCategoryAmounts(String timeStart, String timeFinish){
+
+    public HashMap<String, Integer> getCategoryAmounts(String timeStart, String timeFinish) {
         HashMap<String, Integer> categoryQuantities = new HashMap<>();
         // get all of our files
         File[] files = new File("Receipts").listFiles();
         // sort our list of files in date order
         Arrays.sort(files, (a, b) -> Long.compare(a.lastModified(), b.lastModified()));
         // get the range of files we need, so that will be all files between time start finish
-        for(int i = 0; i < files.length; i++){
-            if(files[i].getName().equals(timeStart)){
-                for(int j = i; j < files.length; j++){
-                    if(!files[j].getName().equals(timeFinish)){
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].getName().equals(timeStart)) {
+                for (int j = i; j < files.length; j++) {
+                    if (!files[j].getName().equals(timeFinish)) {
                         categoryQuantities = calculateTotalPerCategory(files[j], categoryQuantities);
-                    }else{
+                    } else {
                         categoryQuantities = calculateTotalPerCategory(files[j], categoryQuantities);
                         break;
                     }
@@ -57,7 +60,7 @@ class Transactions {
         }
         return categoryQuantities;
     }
-    
+
     public int getTransactionNumber(String time) {
         try {
             File requiredDayFile = new File("Receipts/" + time);
@@ -67,7 +70,7 @@ class Transactions {
         }
         return 1;
     }
-    
+
     private String binarySearch(List<String> lines, int transactionNumberNeeded) {
         int low = 0;
         int high = lines.size() - 1;
@@ -87,14 +90,52 @@ class Transactions {
 
     private String formatString(String[] wordsOfLine) {
         StringBuilder formattedString = new StringBuilder();
-        for(String wordOfLine : wordsOfLine){
+        for (String wordOfLine : wordsOfLine) {
             formattedString.append(wordOfLine.replace(";", "\n"));
         }
         return formattedString.toString();
     }
 
     private HashMap<String, Integer> calculateTotalPerCategory(File file, HashMap<String, Integer> categoryQuantities) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            // search the file
+            Scanner s = new Scanner(file);
+            System.out.println(file.getName());
+            s.useDelimiter("\n");
+            while (s.hasNext()) {
+                // get the line currently being iterated over
+                // get a string array of things separated by ";"
+                String[] line = s.next().split(";");
+                // get the items, which will be the second element of the split
+                // line
+                String[] allItems = line[3].split(",");
+                for (String itemString : allItems) {
+                    String[] itemDetails = itemString.split("~");
+                    String category = itemDetails[2];
+                    // if the key (the category) is already in the hashmap, increment quantity. 
+                    if (categoryQuantities.containsKey(category)) {
+                        categoryQuantities.replace(category, categoryQuantities.get(category) + 1);
+                    } else {
+                        categoryQuantities.put(category, 1);
+                    }
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("No such file exists");
+        }
+        return categoryQuantities;
     }
 
+    public static void main(String[] args) {
+        HashMap<String, Integer> myMap = new Transactions().getCategoryAmounts("20-03-2017", "20-03-2017");
+        myMap.entrySet().stream().map((entry) -> {
+            String key = entry.getKey();
+            return entry;
+        }).map((entry) -> {
+            Integer value = entry.getValue();
+            return entry;
+        }).forEachOrdered((_item) -> {
+            System.out.println("Key: " + "Value: ");
+        });
+    }
 }

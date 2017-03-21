@@ -50,11 +50,25 @@ class Receipt {
         StringBuilder sb = new StringBuilder();
         sb.append(AIMS.instance.status.getTransactionNum()).append(";");
         sb.append("Receipt;");
-        sb.append(df.format(Calendar.getInstance().getTime())).append(",");
-        itemsToBuy.forEach((item) -> {
-            sb.append(item.getName()).append("~").append(item.getPrice())
-                    .append("~").append(item.getCategory()).append(",");
-        });
+        sb.append(df.format(Calendar.getInstance().getTime())).append(";");
+        for(int i = 0; i < itemsToBuy.size(); i++){
+            // check if the current element being iterated over is the last
+            if(i == itemsToBuy.size()-1){
+                sb.append(itemsToBuy.get(i).getName()).append("~")
+                        .append(itemsToBuy.get(i).getPrice())
+                        .append("~").append(itemsToBuy.get(i).getCategory())
+                        .append(";");
+            }else{
+                sb.append(itemsToBuy.get(i).getName()).append("~")
+                        .append(itemsToBuy.get(i).getPrice())
+                        .append("~").append(itemsToBuy.get(i).getCategory())
+                        .append(",");
+            }
+        }
+//        itemsToBuy.forEach((item) -> {
+//            sb.append(item.getName()).append("~").append(item.getPrice())
+//                    .append("~").append(item.getCategory()).append(",");
+//        });
         sb.append("Total: ").append(String.format("%.2f", total)).append(";");
         sb.append("Change: ").append(changeTogive).append(";");
         sb.append("Operator: ");
