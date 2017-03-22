@@ -5,13 +5,16 @@
  */
 package aims;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -22,12 +25,20 @@ import javax.swing.WindowConstants;
  */
 public class ReportBarChart extends JPanel {
 
-    private final ArrayList<Bar> bars;
-    private final int MAXHEIGHT = 400;
-    private final int MAXWIDTH = 400;
+    private final int XAxisFinishXValue = 450;
+    private final int XAxisFinishYValue = 450;
+    private final int XAxisStartXValue = 30;
+    private final int XAxisStartYValue = 450;
+    private final int YAxisFinishXValue = 30;
+    private final int YAxisFinishYValue = 30;
+    private final int YAxisStartXValue = 30;
+    private final int YAxisStartYValue = 450;
+
+    private final HashMap<String, Integer> hashMapOfValues;
+    private Random random = new Random(5);
 
     public ReportBarChart(HashMap<String, Integer> values) {
-        bars = makeBars(values);
+        this.hashMapOfValues = values;
         this.setSize(500, 500);
     }
 
@@ -36,76 +47,53 @@ public class ReportBarChart extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         drawAxis(g2d, new Rectangle(this.getX(), this.getY()));
+        drawBars(hashMapOfValues, g2d);
     }
 
-    private ArrayList<Bar> makeBars(HashMap<String, Integer> values) {
-        // find the tallest bar
-        ArrayList<Bar> ret = new ArrayList<>();
-        values.entrySet().forEach((entry) -> {
-            ret.add(new Bar(entry.getKey(), entry.getValue()));
-        });
-        ret.sort((Bar a, Bar b) -> b.getValue() - a.getValue());
-        //normalise and scale
-        int highestValue = ret.get(0).getValue();
-        ret.forEach((b) -> {
-            b.setValue((b.getValue() / highestValue) * MAXHEIGHT);
-        });
-        return ret;
+    private void drawBars(HashMap<String, Integer> catMap, Graphics2D g2d) {
+        // find the biggest value
+        int highestValue = Collections.max(catMap.values());
+        //work out width per bar
+        int width = calculateLengthOfXAxis() / catMap.size();
+        //initialise as 30 for offset
+        int sumOfPreviousWidths = 31;
+        for (Map.Entry<String, Integer> entry : catMap.entrySet()) {
+            Integer value = entry.getValue();
+            //normalise and scale 
+            double height = ((double)value / (double) highestValue) * calculateLengthOfYAxis();
+            g2d.setColor(generateColour());
+            g2d.fillRect(sumOfPreviousWidths, 450-(int)height, width, (int)height);
+            int currentHeight = 450-(int)height;
+            sumOfPreviousWidths = sumOfPreviousWidths + width;
+        }
     }
-
+    
+    private Color generateColour() {
+        final float hue = random.nextFloat();
+        final float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
+        final float luminance = 1.0f; //1.0 for brighter, 0.0 for black
+        return Color.getHSBColor(hue, saturation, luminance);
+    }
+    
     private void drawAxis(Graphics2D g2d, Rectangle rectangle) {
         // x axis
-
-        g2d.drawLine(MAXWIDTH - 380, 380, MAXWIDTH, 380);
-        g2d.drawString("Categories", MAXWIDTH / 2, 400);
+        g2d.drawLine(XAxisStartXValue, XAxisStartYValue, XAxisFinishXValue, XAxisFinishYValue);
+        g2d.drawString("Categories", XAxisFinishXValue / 2, XAxisFinishYValue + 20);
         // y axis
-        g2d.drawLine(MAXWIDTH - 380, 380, 20, 20);
+        g2d.drawLine(YAxisStartXValue, YAxisStartYValue, YAxisFinishXValue, YAxisFinishYValue);
         Font font = new Font(null, Font.PLAIN, 12);
         AffineTransform affineTransform = new AffineTransform();
         affineTransform.rotate(Math.toRadians(270), 0, 0);
         Font rotatedFont = font.deriveFont(affineTransform);
         g2d.setFont(rotatedFont);
-        g2d.drawString("Quantity", 13, 190);
-        g2d.dispose();
+        g2d.drawString("Quantity", 18, YAxisStartYValue / 2);
     }
 
-    class Bar {
-
-        private String category;
-        private Integer value;
-
-        public Bar(String category, Integer value) {
-
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public Integer getValue() {
-            return value;
-        }
-
-        public void setValue(Integer value) {
-            this.value = value;
-        }
+    private int calculateLengthOfYAxis() {
+        return YAxisStartYValue - YAxisFinishYValue;
     }
 
-    public static void main(String[] args) {
-        HashMap<String, Integer> myMap = new HashMap<>();
-        myMap.put("Oranges", 20);
-        myMap.put("Apples", 30);
-        myMap.put("DeliciousFruits", 10);
-        myMap.put("Tastiness", 50);
-        ReportBarChart panel = new ReportBarChart(myMap);
-        JFrame frame = new JFrame();
-        frame.setContentPane(panel);
-        frame.pack();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+    private int calculateLengthOfXAxis() {
+        return XAxisFinishXValue - XAxisStartXValue;
     }
 }

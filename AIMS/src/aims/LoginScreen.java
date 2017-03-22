@@ -288,7 +288,7 @@ public class LoginScreen extends javax.swing.JPanel {
         makeUsers = new ProcessHandler.UserData();
         try {
             user = new User(makeUsers.makeUserObject(passwordToString(jPasswordField1.getPassword())));
-        } catch (FileNotFoundException | NoSuchAlgorithmException e) {
+        } catch (FileNotFoundException | NullPointerException | NoSuchAlgorithmException e) {
             jPasswordField1.setText(null);
         }
         if (user != null) {
