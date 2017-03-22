@@ -34,25 +34,6 @@ public class ReportPieChart extends JPanel {
         segments = calculateForEach(values);
         this.setSize(new Dimension(300,300));
     }
-    /**
-     * Test case: One frame filled with the piechart
-     * SHOULD APPEAR AS: 1half 1quarter and 1quarter randomly coloured
-     *
-     * @param args ignored
-     */
-    public static void main(String[] args) {
-        ReportPieChart panel = new ReportPieChart(new HashMap<String, Integer>() {{
-            put("Half", 20);
-            put("Oranges", 5);
-            put("Bananas", 40);
-            put("Quarter", 10);
-        }});
-        JFrame frame = new JFrame();
-        frame.setContentPane(panel);
-        frame.pack();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
 
     @Override
     public void paintComponent(Graphics g) {
