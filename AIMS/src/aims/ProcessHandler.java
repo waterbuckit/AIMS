@@ -83,7 +83,7 @@ public class ProcessHandler {
                 //check it in the file.
                 //would be better if it was global and configurable
                 try {
-                    Item item = new Item(line);
+                    Item item = Item.fromString(line);
                     this.items.put(item, lineNum);
                     lineNum++;
                 } catch (Item.ParseException e) {
@@ -115,7 +115,7 @@ public class ProcessHandler {
         }
 
         public void addItem(String itemData) throws Item.ParseException {
-            itemsList.add(new Item(itemData));
+            itemsList.add(Item.fromString(itemData));
         }
 
         public List<Item> getItemsAsList() throws FileNotFoundException {
@@ -128,7 +128,7 @@ public class ProcessHandler {
                 //check it in the file.
                 //would be better if it was global and configurable
                 try {
-                    Item item = new Item(line);
+                    Item item = Item.fromString(line);
                     this.itemsList.add(item);
                 } catch (Item.ParseException e) {
                     //oh no, a malformed item! What will I do?
