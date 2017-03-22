@@ -10,13 +10,19 @@ package aims;
  * @author zugbug
  */
 public class Item {
+    
+    class ParseException extends Exception{
+        public ParseException(String str) {
+            super(str);
+        }
+    }
 
     private String name;
     private int barcode;
     private double price;
     private String category;
 
-    public Item(String line) throws Exception {
+    public Item(String line) throws ParseException {
         try {
             String[] memVars = line.split(":");
             this.name = memVars[0];
@@ -24,8 +30,8 @@ public class Item {
             this.price = Double.parseDouble(memVars[2]);
             this.category = formatCategory(memVars[3]);
 //            this.category = memVars[3];
-        } catch (Exception e) {
-            throw new Exception("Could not convert <" + line + "> to a valid object - " + e.getMessage());
+        } catch (NumberFormatException e) {
+            throw new ParseException("Could not convert <" + line + "> to a valid object - " + e.getMessage());
         }
 
     }

@@ -5,8 +5,10 @@
  */
 package aims;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
-import sun.awt.X11.Screen;
+import java.util.Optional;
 
 /**
  *
@@ -203,12 +205,12 @@ public class Report extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
-    
+
     private String[] concatTime() {
         String[] date = {jComboBox1.getSelectedItem() + "-" + jComboBox2.getSelectedItem()
-                + "-" + jComboBox3.getSelectedItem(), 
+            + "-" + jComboBox3.getSelectedItem(),
             jComboBox4.getSelectedItem() + "-" + jComboBox5.getSelectedItem()
-                + "-" + jComboBox6.getSelectedItem()};
+            + "-" + jComboBox6.getSelectedItem()};
         return date;
     }
 
