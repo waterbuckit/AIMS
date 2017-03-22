@@ -46,7 +46,7 @@ public class ReportBarChart extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        drawAxis(g2d, new Rectangle(this.getX(), this.getY()));
+        drawAxis(g2d);
         drawBars(hashMapOfValues, g2d);
     }
 
@@ -63,7 +63,6 @@ public class ReportBarChart extends JPanel {
             double height = ((double)value / (double) highestValue) * calculateLengthOfYAxis();
             g2d.setColor(generateColour());
             g2d.fillRect(sumOfPreviousWidths, 450-(int)height, width, (int)height);
-            int currentHeight = 450-(int)height;
             sumOfPreviousWidths = sumOfPreviousWidths + width;
         }
     }
@@ -75,7 +74,7 @@ public class ReportBarChart extends JPanel {
         return Color.getHSBColor(hue, saturation, luminance);
     }
     
-    private void drawAxis(Graphics2D g2d, Rectangle rectangle) {
+    private void drawAxis(Graphics2D g2d) {
         // x axis
         g2d.drawLine(XAxisStartXValue, XAxisStartYValue, XAxisFinishXValue, XAxisFinishYValue);
         g2d.drawString("Categories", XAxisFinishXValue / 2, XAxisFinishYValue + 20);
