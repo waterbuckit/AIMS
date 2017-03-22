@@ -86,7 +86,7 @@ public class ProcessHandler {
                     Item item = new Item(line);
                     this.items.put(item, lineNum);
                     lineNum++;
-                } catch (Exception e) {
+                } catch (Item.ParseException e) {
                     //oh no, a malformed item! What will I do?
                     //I will inform the user there was a problem in the file!
                     System.err.println(e.getMessage());
@@ -114,7 +114,7 @@ public class ProcessHandler {
             return items;
         }
 
-        public void addItem(String itemData) throws Exception {
+        public void addItem(String itemData) throws Item.ParseException {
             itemsList.add(new Item(itemData));
         }
 
@@ -130,7 +130,7 @@ public class ProcessHandler {
                 try {
                     Item item = new Item(line);
                     this.itemsList.add(item);
-                } catch (Exception e) {
+                } catch (Item.ParseException e) {
                     //oh no, a malformed item! What will I do?
                     //I will inform the user there was a problem in the file!
                     System.err.println(e.getMessage());

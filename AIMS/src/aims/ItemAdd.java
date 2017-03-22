@@ -6,6 +6,7 @@
 package aims;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -167,7 +168,7 @@ public class ItemAdd extends javax.swing.JPanel {
             iom.getItemsAsList();
             iom.addItem(jTextField1.getText() + ":" + jTextField2.getText() + ":" + jTextField3.getText() + ":" + jTextField4.getText());
             iom.updateItems((ArrayList<Item>) iom.itemsList);
-        } catch (Exception ex) {
+        } catch (Item.ParseException | IOException ex) {
             Logger.getLogger(ItemAdd.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
