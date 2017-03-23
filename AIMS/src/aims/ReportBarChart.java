@@ -36,9 +36,14 @@ public class ReportBarChart extends JPanel {
 
     private final HashMap<String, Integer> hashMapOfValues;
     private Random random = new Random(5);
+    private final AffineTransform affineTransform;
+    private final Font font;
 
     public ReportBarChart(HashMap<String, Integer> values) {
         this.hashMapOfValues = values;
+        affineTransform = new AffineTransform();
+        affineTransform.rotate(Math.toRadians(270),0,0);
+        font = new Font(null, Font.PLAIN, 12);
         this.setSize(500, 500);
     }
 
@@ -58,11 +63,16 @@ public class ReportBarChart extends JPanel {
         //initialise as 30 for offset
         int sumOfPreviousWidths = 31;
         for (Map.Entry<String, Integer> entry : catMap.entrySet()) {
+            String key = entry.getKey();
             Integer value = entry.getValue();
             //normalise and scale 
             double height = ((double)value / (double) highestValue) * calculateLengthOfYAxis();
             g2d.setColor(generateColour());
             g2d.fillRect(sumOfPreviousWidths, 450-(int)height, width, (int)height);
+            g2d.setColor(Color.BLACK);
+            Font rotatedFont = font.deriveFont(affineTransform);
+            g2d.setFont(rotatedFont);
+            g2d.drawString(key + " - " + value, sumOfPreviousWidths+width/2, 450-(int)height/2);
             sumOfPreviousWidths = sumOfPreviousWidths + width;
         }
     }
@@ -80,14 +90,13 @@ public class ReportBarChart extends JPanel {
         g2d.drawString("Categories", XAxisFinishXValue / 2, XAxisFinishYValue + 20);
         // y axis
         g2d.drawLine(YAxisStartXValue, YAxisStartYValue, YAxisFinishXValue, YAxisFinishYValue);
-        Font font = new Font(null, Font.PLAIN, 12);
-        AffineTransform affineTransform = new AffineTransform();
-        affineTransform.rotate(Math.toRadians(270), 0, 0);
         Font rotatedFont = font.deriveFont(affineTransform);
         g2d.setFont(rotatedFont);
         g2d.drawString("Quantity", 18, YAxisStartYValue / 2);
     }
-
+    /*
+    Two methods for working out the distance between each point. 
+    */
     private int calculateLengthOfYAxis() {
         return YAxisStartYValue - YAxisFinishYValue;
     }

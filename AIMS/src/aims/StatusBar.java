@@ -28,7 +28,7 @@ public class StatusBar extends JPanel {
     private final JLabel transactionLabel;
     private final JLabel userLabel;
     int transactionNumber;
-    
+
     public StatusBar() {
         transactionLabel = new JLabel("#0");
         statusLayout = new GridLayout(1, 0, 1, 1);
@@ -38,24 +38,27 @@ public class StatusBar extends JPanel {
         userLabel = new JLabel();
         initialiseComponents();
     }
-    
-    public void setTransactionNumber(int num){
+
+    public void setTransactionNumber(int num) {
         transactionNumber = num;
     }
-    
-    public void setUserLabel(User use){
-        if(use == null)
+
+    public void setUserLabel(User use) {
+        if (use == null) {
             userLabel.setText(null);
-        else
+        } else {
             userLabel.setText(use.getName());
+        }
         this.add(userLabel);
     }
-    
-    public void incrementTransaction(){
+    /*
+    increments the transaction label based off the transaction number.
+    */
+    public void incrementTransaction() {
         transactionNumber++;
-        transactionLabel.setText("#"+String.valueOf(transactionNumber));
+        transactionLabel.setText("#" + String.valueOf(transactionNumber));
     }
-    
+
     private void initialiseComponents() {
         this.add(timeLabel);
         this.add(sepPanel);
@@ -88,7 +91,7 @@ public class StatusBar extends JPanel {
             timer.start();
         }
     }
-    
+
     class SeparatorPanel extends JPanel {
 
         protected Color leftColor;
@@ -107,9 +110,5 @@ public class StatusBar extends JPanel {
             g.setColor(rightColor);
             g.drawLine(1, 0, 1, getHeight());
         }
-        /**
-         *  this is my documentation (^:
-         */
     }
-
 }
