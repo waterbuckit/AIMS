@@ -131,15 +131,15 @@ public class UserAddScreen extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        handleTheThings();
+        handleAddingUser();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        handleTheThings();
+        handleAddingUser();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        handleTheThings();
+        handleAddingUser();
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
@@ -182,6 +182,7 @@ public class UserAddScreen extends javax.swing.JPanel {
 
     private String hashPassword(String toFormattedString) {
         try {
+            // code for getting the digest of an MD5 hash
             MessageDigest m = MessageDigest.getInstance("MD5");
             m.update(toFormattedString.getBytes());
             byte[] bytesOfPass = m.digest();
@@ -197,7 +198,7 @@ public class UserAddScreen extends javax.swing.JPanel {
         return null;
     }
 
-    private void handleTheThings() {
+    private void handleAddingUser() {
         try {
             addUser();
             if (AIMS.instance.loggedIn != true) {

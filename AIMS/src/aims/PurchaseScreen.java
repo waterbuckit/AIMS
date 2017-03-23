@@ -344,7 +344,6 @@ public class PurchaseScreen extends javax.swing.JPanel {
             Logger.getLogger(PurchaseScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         AIMS.instance.switchToScreen(AIMS.instance.itemSelect);
-        AIMS.instance.purchaseList.jButton15.setEnabled(true);
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
