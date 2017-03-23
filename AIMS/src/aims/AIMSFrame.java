@@ -8,8 +8,8 @@ package aims;
 import javax.swing.JFrame;
 
 /**
- *
  * @author waterbucket
+ * Class for the main frame to draw to, extended to allow for customisability
  */
 public class AIMSFrame extends JFrame {
 }
