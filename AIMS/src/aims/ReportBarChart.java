@@ -27,6 +27,23 @@ import javax.swing.WindowConstants;
  * @author waterbucket
  */
 public class ReportBarChart extends JPanel {
+    /**
+     * Test case
+     * @param args 
+     */
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        Map<String,Integer> values = new HashMap();
+        values.put("Potatoes", 120);
+        values.put("Ranch sauce", 100);
+        values.put("Avocadoes", 50);
+        values.put("PB&j",140);
+        ReportBarChart chart = new ReportBarChart(values);
+        frame.setContentPane(chart);
+        frame.setDefaultCloseOperation(2);
+        frame.pack();
+        frame.setVisible(true);
+    }
 
     private final int XAxisFinishXValue = 450;
     private final int XAxisFinishYValue = 450;
@@ -44,19 +61,23 @@ public class ReportBarChart extends JPanel {
      *
      * @param categories new value of bars
      */
-    public final void setBars(HashMap<String, Integer> categories) {
+    public final void setBars(Map<String, Integer> categories) {
         this.bars = makeBars(categories);
     }
 
     private final Random random = new Random(5);
+    private final Font rotatedFont;
 
-    public ReportBarChart(HashMap<String, Integer> values) {
+    public ReportBarChart(Map<String, Integer> values) {
         //TODO: handle cases when there are no values!
         this.setBars(values);
         this.setSize(500, 500);
+        AffineTransform rotation = new AffineTransform();
+        rotation.rotate(Math.toRadians(270), 0, 0);
+        this.rotatedFont = new Font(null, Font.PLAIN, 12).deriveFont(rotation);
     }
 
-    private List<Bar> makeBars(HashMap<String, Integer> catMap) {
+    private List<Bar> makeBars(Map<String, Integer> catMap) {
         //allocate space for return collection
         List<Bar> retList = new ArrayList<>(catMap.size());
         // find the biggest value
@@ -70,7 +91,10 @@ public class ReportBarChart extends JPanel {
             //normalise and scale 
             double height = ((double) value / (double) highestValue) * calculateLengthOfYAxis();
             //create new data container
-            Bar bar = new Bar(generateColour(), new Rectangle2D.Float(sumOfPreviousWidths, 450 - (int) height, width, (int) height));
+            Bar bar = new Bar(
+                    generateColour(),
+                    new Rectangle2D.Float(sumOfPreviousWidths, 450 - (int) height, width, (int) height),
+                    entry.getKey() + " - " + entry.getValue());
             retList.add(bar);
             sumOfPreviousWidths = sumOfPreviousWidths + width;
         }
@@ -101,8 +125,20 @@ public class ReportBarChart extends JPanel {
             return colour;
         }
 
-        public Bar(Color colour, Rectangle2D.Float shape) {
+        private final String label;
+
+        /**
+         * Get the value of label
+         *
+         * @return the value of label
+         */
+        public String getLabel() {
+            return label;
+        }
+
+        public Bar(Color colour, Rectangle2D.Float shape, String label) {
             this.shape = shape;
+            this.label = label;
             this.colour = colour;
         }
 
@@ -120,6 +156,13 @@ public class ReportBarChart extends JPanel {
         bars.forEach((bar) -> {
             g2d.setColor(bar.getColour());
             g2d.fill(bar.getShape());
+        });
+        g2d.setFont(rotatedFont);
+        g2d.setColor(Color.BLACK);
+        bars.forEach((t) -> {
+            final int x = (int) (t.shape.x+t.shape.width/2);
+            final int y = (int) (450 - t.shape.height/2);
+            g2d.drawString(t.getLabel(), x, y);
         });
     }
 
@@ -139,7 +182,6 @@ public class ReportBarChart extends JPanel {
         Font font = new Font(null, Font.PLAIN, 12);
         AffineTransform affineTransform = new AffineTransform();
         affineTransform.rotate(Math.toRadians(270), 0, 0);
-        Font rotatedFont = font.deriveFont(affineTransform);
         g2d.setFont(rotatedFont);
         g2d.drawString("Quantity", 18, YAxisStartYValue / 2);
     }
