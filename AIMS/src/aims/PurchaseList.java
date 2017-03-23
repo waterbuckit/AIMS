@@ -19,7 +19,6 @@ import javax.swing.DefaultListModel;
 public class PurchaseList extends javax.swing.JPanel {
 
     private User user = null;
-    private int transactionNum;
     /**
      * Get the value of user
      *
