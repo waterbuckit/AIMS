@@ -10,8 +10,9 @@ package aims;
  * @author zugbug
  */
 public class Item {
-    
-    class ParseException extends Exception{
+
+    static class ParseException extends Exception {
+
         public ParseException(String str) {
             super(str);
         }
@@ -22,18 +23,20 @@ public class Item {
     private double price;
     private String category;
 
-    public Item(String line) throws ParseException {
+    public Item(String name, int barcode, double price, String category) {
+        this.name = name;
+        this.barcode = barcode;
+        this.price = price;
+        this.category = category;
+    }
+
+    public static Item fromString(String line) throws ParseException {
         try {
             String[] memVars = line.split(":");
-            this.name = memVars[0];
-            this.barcode = Integer.parseInt(memVars[1]);
-            this.price = Double.parseDouble(memVars[2]);
-            this.category = formatCategory(memVars[3]);
-//            this.category = memVars[3];
+            return new Item(memVars[0], Integer.parseInt(memVars[1]), Double.parseDouble(memVars[2]), formatCategory(memVars[3]));
         } catch (NumberFormatException e) {
             throw new ParseException("Could not convert <" + line + "> to a valid object - " + e.getMessage());
         }
-
     }
 
     //getters
@@ -52,29 +55,35 @@ public class Item {
     public String getCategory() {
         return category;
     }
+
     // setters
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
-    public void setBarcode(int num){
+
+    public void setBarcode(int num) {
         this.barcode = num;
     }
-    public void setPrice(double price){
+
+    public void setPrice(double price) {
         this.price = price;
     }
-    public void setCategory(String category){
+
+    public void setCategory(String category) {
         this.category = category;
     }
-    public String toFormattedString(){
+
+    public String toFormattedString() {
         return name + ":" + barcode + ":" + price + ":" + category + "\n";
     }
+
     //alt+insert -> select toString(), check all, let netbeans do the work for you
     @Override
     public String toString() {
         return "£" + String.format("%.2f", getPrice()) + " " + getName();
     }
 
-    private String formatCategory(String memVar) {
+    private static String formatCategory(String memVar) {
         return memVar.replaceAll("\\r\\n|\\r|\\n", "");
     }
 }
