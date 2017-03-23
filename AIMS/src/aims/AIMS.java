@@ -21,6 +21,7 @@ public class AIMS implements Runnable {
 
     public static void main(String[] args) throws Exception {
         instance = new AIMS();
+        // abstract method that runs once an instance of AIMS has been made
         instance.run();
     }
 
@@ -38,7 +39,6 @@ public class AIMS implements Runnable {
 
     public AIMS() {
         this.frame = new AIMSFrame();
-        //set up controller
         //set up screens
         this.purchaseLog = new Transactions();
         this.purchaseList = new PurchaseList(itemSelect);
@@ -58,30 +58,32 @@ public class AIMS implements Runnable {
         frame.setTitle("AIMS");
         frame.setLayout(new BorderLayout());
         frame.setExtendedState(frame.getExtendedState() | Frame.MAXIMIZED_BOTH);
-//        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.add(purchaseList, BorderLayout.WEST);
         frame.add(status, BorderLayout.SOUTH);
-        //switch to initial screen (like in future login screen?)
+        //switch to initial screen
         //changes only the right hand screen/list is always there
         frame.setSize(1600, 900);
         status.setTransactionNumber(purchaseLog.getTransactionNumber(new SimpleDateFormat("dd-MM-yyyy").format(
                 Calendar.getInstance().getTime())));
+        //check if there are any users, if there is, switch to the login screen
         try {
             boolean anyUsers = checkForUsers();
             if (anyUsers) {
                 switchToScreen(loginScreen);
             } else {
+                // add new user if there are no known users
                 loginScreen.checkIfUsers();
                 switchToScreen(new UserAddScreen());
             }
+        // if there is no file for users, add a new user.
         } catch (FileNotFoundException ex) {
             loginScreen.checkIfUsers();
             switchToScreen(new UserAddScreen());
         }
     }
-
+    // method that allows for switching between jpanels
     public void switchToScreen(JPanel screen) {
         frame.add(screen, BorderLayout.CENTER);
         frame.repaint();
