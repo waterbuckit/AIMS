@@ -205,7 +205,8 @@ public class Report extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
-
+    
+    // concats the time into the correct format
     private String[] concatTime() {
         String[] date = {jComboBox1.getSelectedItem() + "-" + jComboBox2.getSelectedItem()
             + "-" + jComboBox3.getSelectedItem(),
@@ -213,16 +214,14 @@ public class Report extends javax.swing.JPanel {
             + "-" + jComboBox6.getSelectedItem()};
         return date;
     }
-
+    
+    // adds the frames of the report pie chart and bar chart by getting the return of the "getCategoryAmounts" method
     private void generateReport() {
         String date[] = concatTime();
         jPanel2.add(new ReportPieChart(new Transactions().getCategoryAmounts(date[0], date[1])));
         jPanel2.repaint();
         jPanel3.add(new ReportBarChart(new Transactions().getCategoryAmounts(date[0], date[1])));
         jPanel3.repaint();
-//        jInternalFrame1.setContentPane(new ReportPieChart(new Transactions().getCategoryAmounts(date[0], date[1])));
-//        System.out.println(jInternalFrame1.getSize());
-//        jInternalFrame1.pack();
         repaint();
         revalidate();
     }
