@@ -30,19 +30,18 @@ public class ItemSelector extends JPanel {
     private Set<String> categories;
 
     public ItemSelector() throws FileNotFoundException {
-        //move things into here!
         this.objectCreate = new ProcessHandler.ItemObjectManipulator();
-        //Unlikely to stay as hard code
+        // define the number of rows that can be used by the gridlayout
         this.rows = 7;
         this.cols = 7;
         this.categories = new HashSet();
         this.theLayout = new GridLayout(rows, cols, 1, 1);
         this.itemsList = new ArrayList();
-        //maybe changed because annoying compiler
         this.getItems();
         //get the purchaseList
     }
-
+    
+    // allows for a reset of the current instance when new items are added
     public void reset() throws FileNotFoundException {
         this.removeAll();
         this.categories.clear();
@@ -59,10 +58,11 @@ public class ItemSelector extends JPanel {
         itemsList = (ArrayList<Item>) objectCreate.getItemsAsList();
         setUpItems();
     }
-
+    // get a list of categories as a distinct set (there will never be the same twice)
     public void setUpItems() {
         categories = this.itemsList.stream().distinct().map(s -> s.getCategory()).collect(Collectors.toSet());
         this.setLayout(theLayout);
+        // make a buttonf or each category
         categories.stream().forEach((category) -> {
             addCategoryButton(category);
         });
@@ -70,8 +70,7 @@ public class ItemSelector extends JPanel {
 
     private void addCategoryButton(String cat) {
         JButton categoryButton = new JButton(cat);
-//        System.err.println(cat);
-//        buttonMap.put(cat, categoryButton);
+        // map each button to an action listener with its necessary category
         categoryButton.addActionListener((ae) -> {
             showItemGrid(cat);
         });
