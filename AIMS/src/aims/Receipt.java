@@ -45,7 +45,7 @@ class Receipt {
             writeToFile(generateString());
         }
     }
-
+    // is the form for a receipt to be built
     private String generateString() {
         StringBuilder sb = new StringBuilder();
         sb.append(AIMS.instance.status.getTransactionNum()).append(";");
@@ -65,10 +65,6 @@ class Receipt {
                         .append(",");
             }
         }
-//        itemsToBuy.forEach((item) -> {
-//            sb.append(item.getName()).append("~").append(item.getPrice())
-//                    .append("~").append(item.getCategory()).append(",");
-//        });
         sb.append("Total: ").append(String.format("%.2f", total)).append(";");
         sb.append("Change: ").append(changeTogive).append(";");
         sb.append("Operator: ");
