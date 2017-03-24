@@ -165,6 +165,7 @@ public class ItemAdd extends javax.swing.JPanel {
     private void callAdd() {
         try {
             ProcessHandler.ItemObjectManipulator iom = new ProcessHandler.ItemObjectManipulator();
+            // Get all the items in the list and take the text from the jTextFields, concat and add item 
             iom.getItemsAsList();
             iom.addItem(jTextField1.getText() + ":" + jTextField2.getText() + ":" + jTextField3.getText() + ":" + jTextField4.getText());
             iom.updateItems((ArrayList<Item>) iom.itemsList);
