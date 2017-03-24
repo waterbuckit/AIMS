@@ -33,12 +33,14 @@ public class ProcessHandler {
     }
 
     static class UserData {
-
+        
+        // returns a string array of the details regarding a user
         public String[] makeUserObject(String password) throws FileNotFoundException, NoSuchAlgorithmException {
             File file = new File("Users/userList");
             Scanner lines = new Scanner(file).useDelimiter("\n");
             while (lines.hasNext()) {
                 String wordsOfLine[] = lines.next().split(":");
+                // the stored hash must equal the digest of the hashed inputted password
                 if (wordsOfLine[1].equals(hashPass(password))) {
                     return wordsOfLine;
                 }
@@ -52,7 +54,8 @@ public class ProcessHandler {
             AIMS.instance.loggedIn = false;
             AIMS.instance.switchToScreen(AIMS.instance.loginScreen);
         }
-
+        
+        // Java implementation of the MD5 hashing algorithm.
         private String hashPass(String s) throws NoSuchAlgorithmException {
             MessageDigest m = MessageDigest.getInstance("MD5");
             m.update(s.getBytes());
@@ -77,7 +80,6 @@ public class ProcessHandler {
                     .useDelimiter("\n"); //And make it's .next() method return 1 line
 
             Integer lineNum = 0;
-            //classic method 
             while (lines.hasNext()) {
                 String line = lines.next();
                 //check it in the file.
@@ -87,77 +89,38 @@ public class ProcessHandler {
                     this.items.put(item, lineNum);
                     lineNum++;
                 } catch (Item.ParseException e) {
-                    //oh no, a malformed item! What will I do?
-                    //I will inform the user there was a problem in the file!
+                    //inform the user there was a problem in the file!
                     System.err.println(e.getMessage());
                     //Because we already created an informative message in the Item
                     //constructor
-                    //We still want to add any other valid items, so we are not gonna quit
+                    //We still want to add any other valid items
                 }
             }
-            //Done! Now, remove the comments and see how simple this is.
-
-            //lambda method, completely identical to the part above
-            //---------UNCOMMENT
-//        lines.forEachRemaining((String t) -> { //for every string
-//            try { //try to add a new item, made up by splitting the line on a ':'
-//                ObjectCreator.this.items.add(new Item(t.split(":")));
-//            } catch (Exception ex) {
-//                //if error occurs, say why.
-//                System.err.println(ex.getMessage());
-//            }
-//        });
-            //---------UNCOMMENT
-            //Done!
-            //And finally show our sweet results.
-//        this.printList();
             return items;
         }
 
         public void addItem(String itemData) throws Item.ParseException {
             itemsList.add(Item.fromString(itemData));
         }
-
+        
+        // same method as above, but returns a list rather than a map.
         public List<Item> getItemsAsList() throws FileNotFoundException {
             File file = new File("Items/itemList");
-            Scanner lines = new Scanner(file) //Wrap a scanner around the file
-                    .useDelimiter("\n"); //And make it's .next() method return 1 line
-            //classic method 
+            Scanner lines = new Scanner(file) 
+                    .useDelimiter("\n"); 
             while (lines.hasNext()) {
                 String line = lines.next();
-                //check it in the file.
-                //would be better if it was global and configurable
                 try {
                     Item item = Item.fromString(line);
                     this.itemsList.add(item);
                 } catch (Item.ParseException e) {
-                    //oh no, a malformed item! What will I do?
-                    //I will inform the user there was a problem in the file!
                     System.err.println(e.getMessage());
-                    //Because we already created an informative message in the Item
-                    //constructor
-                    //We still want to add any other valid items, so we are not gonna quit
                 }
             }
-            //Done! Now, remove the comments and see how simple this is.
-
-            //lambda method, completely identical to the part above
-            //---------UNCOMMENT
-//        lines.forEachRemaining((String t) -> { //for every string
-//            try { //try to add a new item, made up by splitting the line on a ':'
-//                ObjectCreator.this.items.add(new Item(t.split(":")));
-//            } catch (Exception ex) {
-//                //if error occurs, say why.
-//                System.err.println(ex.getMessage());
-//            }
-//        });
-            //---------UNCOMMENT
-            //Done!
-            //And finally show our sweet results.
-//        this.printList();
+            
             return itemsList;
         }
-
+        // rewrites the list to the items file
         void updateItems(ArrayList<Item> listOfItems) throws IOException {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Items/itemList"), false));
             listOfItems.forEach((item) -> {
