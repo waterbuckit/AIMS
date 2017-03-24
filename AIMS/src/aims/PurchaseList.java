@@ -412,7 +412,7 @@ public class PurchaseList extends javax.swing.JPanel {
     public double getTotal() {
         return total;
     }
-
+    
     private void appendToTextField(int i) {
         jTextField1.setText(jTextField1.getText() + i);
     }
@@ -448,7 +448,7 @@ public class PurchaseList extends javax.swing.JPanel {
     private void clearTextField() {
         jTextField1.setText(null);
     }
-
+    // linear search as barcodes are not sorted 
     private void searchForItem() throws FileNotFoundException {
         int barcodeToSearch = Integer.parseInt(jTextField1.getText());
         for (Item item : new ProcessHandler.ItemObjectManipulator().getItemsAsList()) {
