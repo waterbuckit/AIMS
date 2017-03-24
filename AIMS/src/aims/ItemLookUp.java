@@ -170,7 +170,7 @@ public class ItemLookUp extends javax.swing.JPanel {
         AIMS.instance.switchToScreen(new ItemAdd());
     }//GEN-LAST:event_jButton21ActionPerformed
 
-    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed   
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton22ActionPerformed
 
@@ -186,7 +186,8 @@ public class ItemLookUp extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
-
+    
+    // populate the table 
     private void setUpTable() throws FileNotFoundException {
         model = new DefaultTableModel();
         model = setUpModelColumns();
@@ -198,7 +199,7 @@ public class ItemLookUp extends javax.swing.JPanel {
         });
         jTable1.getModel().addTableModelListener(new MyModelListener());
     }
-
+    
     private DefaultTableModel setUpModelColumns() {
         model.addColumn("Item");
         model.addColumn("Price");
@@ -206,9 +207,9 @@ public class ItemLookUp extends javax.swing.JPanel {
         model.addColumn("Barcode");
         return model;
     }
-
+    //table model listener class allows detection of changes in class
     class MyModelListener implements TableModelListener {
-
+        // method for getting the details of any change in state
         @Override
         public void tableChanged(TableModelEvent tme) {
             int row = tme.getFirstRow();
@@ -218,12 +219,13 @@ public class ItemLookUp extends javax.swing.JPanel {
             Object data = model.getValueAt(row, column);
             switchByColumn(columnName, data);
             try {
+                // write the new list of items to the file
                 itemManipulator.updateItems(items);
             } catch (IOException ex) {
                 Logger.getLogger(ItemLookUp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        // dependent on the column being edited, switch and modify that member variable of the itemobject    
         private void switchByColumn(String columnName, Object data) {
             int selectedRow = jTable1.getSelectedRow();
             switch(columnName){
