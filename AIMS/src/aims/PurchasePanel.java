@@ -11,12 +11,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  *
  * @author waterbucket
  */
-public class PurchaseList extends javax.swing.JPanel {
+public class PurchasePanel extends javax.swing.JPanel {
 
     private User user = null;
     /**
@@ -43,13 +44,13 @@ public class PurchaseList extends javax.swing.JPanel {
     }
 
     /**
-     * Creates new form PurchaseList
+     * Creates new form PurchasePanel
      */
     ArrayList<Item> itemsToBuy;
     DefaultListModel<Item> listModel;
     double total;
     
-    public PurchaseList(ItemSelector itemselect) {
+    public PurchasePanel(ItemSelector itemselect) {
         listModel = new DefaultListModel<>();
         itemsToBuy = new ArrayList<>();
         initComponents();
@@ -357,7 +358,7 @@ public class PurchaseList extends javax.swing.JPanel {
         try {
             searchForItem();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PurchaseList.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PurchasePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
@@ -388,7 +389,7 @@ public class PurchaseList extends javax.swing.JPanel {
         try {
             searchForItem();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PurchaseList.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PurchasePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTextField1ActionPerformed
 

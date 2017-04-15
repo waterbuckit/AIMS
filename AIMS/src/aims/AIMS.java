@@ -31,7 +31,7 @@ public class AIMS implements Runnable {
     PurchaseScreen purchaseScreen;
     FunctionScreen functionScreen;
     LoginScreen loginScreen;
-    PurchaseList purchaseList;
+    PurchasePanel purchaseList;
     PurchaseScreen ps;
     Transactions purchaseLog;
     StatusBar status;
@@ -41,7 +41,7 @@ public class AIMS implements Runnable {
         this.frame = new AIMSFrame();
         //set up screens
         this.purchaseLog = new Transactions();
-        this.purchaseList = new PurchaseList(itemSelect);
+        this.purchaseList = new PurchasePanel(itemSelect);
         this.loginScreen = new LoginScreen();
         this.functionScreen = new FunctionScreen();
         this.status = new StatusBar();
